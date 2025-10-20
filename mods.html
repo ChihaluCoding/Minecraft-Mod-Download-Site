@@ -23,12 +23,12 @@
         <video class="hero__video" autoplay muted loop playsinline></video>
       </div>
       <nav class="top-nav">
-        <a class="top-nav__brand" href="index.html">My Minecraft Mods</a>
+        <a class="top-nav__brand" href="index.html">Chihalu Mods</a>
         <div class="top-nav__links">
+          <a href="index.html">ホーム</a>
           <a href="mods.html">Mod一覧</a>
           <a href="updates.html">更新情報</a>
-          <a href="downloads.html">ダウンロード</a>
-          <a href="contact.html">お問い合わせ</a>
+          <a href="contact.html">不具合の報告</a>
         </div>
         <div class="top-nav__controls">
           <div class="theme-toggle">
@@ -48,8 +48,6 @@
         <h1 class="hero__title">MODカタログ</h1>
         <p class="hero__description">ローダー、バージョン、環境でフィルターすると、必要なビルドがすぐに見つかります。</p>
         <div class="hero__actions">
-          <a class="hero__cta" href="downloads.html">ダウンロードページを開く</a>
-          <a class="hero__cta hero__cta--ghost" href="#mod-list">以下のカタログをご覧ください</a>
         </div>
       </div>
     </header>
@@ -60,32 +58,32 @@
           <h2 class="section__title">MODリスト</h2>
           <p class="section__subtitle">フィルターを使用して、Minecraft のバージョン、ローダー、または環境で絞り込みます。</p>
         </div>
+        <aside class="mod-filters mod-filters--inline" id="mod-filter-panel">
+          <h3 class="mod-filters__title">フィルター</h3>
+          <form class="mod-filters__form">
+            <label class="mod-filters__field">
+              <span class="mod-filters__label">マインクラフトのバージョン</span>
+              <select data-filter="minecraftVersion">
+                <option value="">全て</option>
+              </select>
+            </label>
+            <label class="mod-filters__field">
+              <span class="mod-filters__label">ローダ</span>
+              <select data-filter="loader">
+                <option value="">全て</option>
+              </select>
+            </label>
+            <label class="mod-filters__field">
+              <span class="mod-filters__label">環境</span>
+              <select data-filter="environment">
+                <option value="">全て</option>
+              </select>
+            </label>
+            <button type="button" class="mod-filters__reset" data-filter-clear>リセット</button>
+          </form>
+        </aside>
         <div class="mod-layout">
           <div id="mod-grid" class="mod-grid" aria-live="polite"></div>
-          <aside class="mod-filters" id="mod-filter-panel">
-            <h3 class="mod-filters__title">フィルター</h3>
-            <form class="mod-filters__form">
-              <label class="mod-filters__field">
-                <span class="mod-filters__label">マインクラフトのバージョン</span>
-                <select data-filter="minecraftVersion">
-                  <option value="">全て</option>
-                </select>
-              </label>
-              <label class="mod-filters__field">
-                <span class="mod-filters__label">ローダ</span>
-                <select data-filter="loader">
-                  <option value="">全て</option>
-                </select>
-              </label>
-              <label class="mod-filters__field">
-                <span class="mod-filters__label">環境</span>
-                <select data-filter="environment">
-                  <option value="">全て</option>
-                </select>
-              </label>
-              <button type="button" class="mod-filters__reset" data-filter-clear>フィルターをリセットする</button>
-            </form>
-          </aside>
         </div>
         <p class="section__note">インストール手順、依存関係、ダウンロード リンクについては、各 MOD ページに記載されています。</p>
       </section>

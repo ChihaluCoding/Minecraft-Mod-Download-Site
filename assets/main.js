@@ -364,10 +364,6 @@
       card.appendChild(summary);
     }
 
-    if (mod.description) {
-      card.appendChild(buildDescriptionAccordion(mod.description));
-    }
-
     const meta = buildMeta(mod);
     if (meta) {
       card.appendChild(meta);
@@ -387,31 +383,6 @@
 
     card.appendChild(buildActions(mod));
     return card;
-  }
-
-  function buildDescriptionAccordion(description) {
-    const details = document.createElement("details");
-    details.className = "mod-card__accordion";
-
-    const summary = document.createElement("summary");
-    summary.className = "mod-card__accordion-toggle";
-    details.appendChild(summary);
-
-    const body = document.createElement("div");
-    body.className = "mod-card__description";
-    appendParagraphs(body, description);
-    details.appendChild(body);
-
-    updateAccordionToggleText(details, summary);
-    details.addEventListener("toggle", () => updateAccordionToggleText(details, summary));
-
-    return details;
-  }
-
-  function updateAccordionToggleText(details, summary) {
-    summary.textContent = details.open
-      ? t("mods.description.hide")
-      : t("mods.description.show");
   }
 
   function appendParagraphs(container, text) {

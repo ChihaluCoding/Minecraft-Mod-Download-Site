@@ -24,16 +24,16 @@
         <video class="hero__video" autoplay muted loop playsinline></video>
       </div>
       <nav class="top-nav">
-        <a class="top-nav__brand" href="index.html">My Minecraft Mods</a>
+        <a class="top-nav__brand" href="index.html">Chihalu Mods</a>
         <div class="top-nav__links">
+          <a href="index.html">ホーム</a>
           <a href="mods.html">Mod一覧</a>
           <a href="updates.html">更新情報</a>
-          <a href="downloads.html">ダウンロード</a>
-          <a href="contact.html">お問い合わせ</a>
+          <a href="contact.html">不具合の報告</a>
         </div>
         <div class="top-nav__controls">
           <div class="theme-toggle">
-            <span class="theme-toggle__label">テーマを変更</span>
+            <span class="theme-toggle__label">現在のテーマ</span>
             <div class="theme-toggle__select">
               <select data-theme-select title="テーマを選択してください">
                 <option value="light-blue">ライト×シアン</option>
@@ -49,8 +49,7 @@
         <h1 class="hero__title">私の Minecraft Mod のダウンロード サイト</h1>
         <p class="hero__description">明確な手順、依存関係を備えた Fabric、Forge、NeoForge MOD を参照し、最新のビルドに簡単にアクセスできます。</p>
         <div class="hero__actions">
-          <a class="hero__cta" href="downloads.html">ダウンロードページに移動します</a>
-          <a class="hero__cta hero__cta--ghost" href="mods.html">Modリストを見る</a>
+          <!-- Removed hero__cta and hero__cta--ghost elements -->
         </div>
       </div>
     </header>
@@ -69,14 +68,12 @@
 
       <section class="section" id="mods">
         <div class="section__header">
-          <h2 class="section__title">注目の MOD</h2>
-          <p class="section__subtitle">ここでは 6 つの新しい MOD を紹介します。</p>
+          <h2 class="section__title">Mod一覧</h2>
         </div>
         <div id="mod-grid" class="mod-grid" data-limit="6" aria-live="polite"></div>
         <div class="section__actions">
           <a class="button button--secondary" href="mods.html">もっと見る</a>
         </div>
-        <p class="section__note">インストール手順、依存関係、ダウンロード リンクについては、各 MOD ページに記載されています。</p>
       </section>
 
       <section class="section section--alt" id="install">
@@ -116,31 +113,6 @@
             <summary>バグを報告したり、機能をリクエストするにはどうすればよいですか?</summary>
             <p>以下のチャネルを使用してご連絡ください。</p>
           </details>
-        </div>
-      </section>
-
-      <section class="section section--alt" id="contact">
-        <div class="section__header">
-          <h2 class="section__title">お問い合わせとサポート</h2>
-          <p class="section__subtitle">ご質問、バグレポート、コラボレーションに関するお問い合わせなど、お気軽にお問い合わせください。</p>
-        </div>
-        <div class="contact contact--simple">
-          <div class="contact__item">
-            <h3>電子メール</h3>
-            <p><a href="mailto:yourname@example.com">yourname@example.com</a> 詳細なメッセージを yourname@example.com に送信してください。</p>
-          </div>
-          <div class="contact__item">
-            <h3>コミュニティ</h3>
-            <ul>
-              <li><a href="https://example.com/discord">Discordサーバー</a></li>
-              <li><a href="https://example.com/twitter">X（ツイッター）</a></li>
-              <li><a href="https://example.com/youtube">YouTube チャンネル</a></li>
-            </ul>
-          </div>
-          <div class="contact__item">
-            <h3>サポート</h3>
-            <p>Booth と Fantia でのサポート枠は準備中です。</p>
-          </div>
         </div>
       </section>
     </main>
