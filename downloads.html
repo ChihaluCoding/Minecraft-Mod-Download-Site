@@ -3,16 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Downloads | My Minecraft Mods</title>
+    <title>My Minecraft Mods | ダウンロード</title>
     <script>
       (function () {
         try {
-          var savedTheme = localStorage.getItem("site-theme");
+          var savedTheme = localStorage.getItem('site-theme');
           if (savedTheme) {
             document.documentElement.dataset.theme = savedTheme;
           }
         } catch (error) {
-          /* ignore access errors */
         }
       })();
     </script>
@@ -20,35 +19,37 @@
   </head>
   <body>
     <header class="hero hero--downloads">
+      <div class="hero__video-wrapper" aria-hidden="true">
+        <video class="hero__video" autoplay muted loop playsinline></video>
+      </div>
       <nav class="top-nav">
         <a class="top-nav__brand" href="index.html">My Minecraft Mods</a>
         <div class="top-nav__links">
-          <a href="index.html#mods">Mod一覧</a>
-          <a href="index.html#updates">更新情報</a>
+          <a href="mods.html">Mod一覧</a>
+          <a href="updates.html">更新情報</a>
           <a href="downloads.html">ダウンロード</a>
-          <a href="index.html#contact">連絡先</a>
+          <a href="contact.html">お問い合わせ</a>
         </div>
         <div class="top-nav__controls">
-          <label class="theme-toggle">
-            <span class="visually-hidden">テーマ切り替え</span>
-            <select data-theme-select>
-              <option value="light-blue">ホワイト × 水色</option>
-              <option value="light-pink">ホワイト × 桜色</option>
-              <option value="dark">ダーク × 水色</option>
-            </select>
-          </label>
+          <div class="theme-toggle">
+            <span class="theme-toggle__label">テーマを変更</span>
+            <div class="theme-toggle__select">
+              <select data-theme-select title="テーマを選択してください">
+                <option value="light-blue">ライト×シアン</option>
+                <option value="light-pink">ライト×ピンク</option>
+                <option value="dark">ダーク×シアン</option>
+              </select>
+            </div>
+          </div>
         </div>
       </nav>
       <div class="hero__content">
-        <p class="hero__subtitle">最新ビルドをこちらから入手</p>
-        <h1 class="hero__title">Downloads</h1>
-        <p class="hero__description">
-          各Modの.jar / .zipファイル、依存関係、導入手順へのリンクをまとめています。
-          バージョンはリリース日の新しい順に並んでいます。
-        </p>
+        <p class="hero__subtitle">常に最新のビルドを取得する</p>
+        <h1 class="hero__title">ダウンロード</h1>
+        <p class="hero__description">バージョン タグ、ハッシュ、必要な依存関係を含む、リリースされたすべてのビルドを検索します。</p>
         <div class="hero__actions">
-          <a class="hero__cta" href="index.html">トップに戻る</a>
-          <a class="hero__cta hero__cta--ghost" href="#download-list">一覧を表示</a>
+          <a class="hero__cta" href="index.html">ホームページに戻る</a>
+          <a class="hero__cta hero__cta--ghost" href="#download-list">ダウンロードリストまでスクロールします</a>
         </div>
       </div>
     </header>
@@ -56,10 +57,8 @@
     <main>
       <section id="download-list" class="section">
         <div class="section__header">
-          <h2 class="section__title">Modダウンロード一覧</h2>
-          <p class="section__subtitle">
-            `assets/mods.js` のデータをもとに、対応ローダーや依存関係をカード形式で表示しています。
-          </p>
+          <h2 class="section__title">MODダウンロードリスト</h2>
+          <p class="section__subtitle">フィルターを使用して、特定のバージョンまたはローダーに焦点を当てます。</p>
         </div>
         <div class="mod-layout">
           <div id="mod-grid" class="mod-grid" aria-live="polite"></div>
@@ -67,30 +66,28 @@
             <h3 class="mod-filters__title">フィルター</h3>
             <form class="mod-filters__form">
               <label class="mod-filters__field">
-                <span class="mod-filters__label">ゲームバージョン</span>
+                <span class="mod-filters__label">マインクラフトのバージョン</span>
                 <select data-filter="minecraftVersion">
-                  <option value="">すべて</option>
+                  <option value="">全て</option>
                 </select>
               </label>
               <label class="mod-filters__field">
-                <span class="mod-filters__label">ローダー</span>
+                <span class="mod-filters__label">ローダ</span>
                 <select data-filter="loader">
-                  <option value="">すべて</option>
+                  <option value="">全て</option>
                 </select>
               </label>
               <label class="mod-filters__field">
                 <span class="mod-filters__label">環境</span>
                 <select data-filter="environment">
-                  <option value="">すべて</option>
+                  <option value="">全て</option>
                 </select>
               </label>
-              <button type="button" class="mod-filters__reset" data-filter-clear>フィルターをリセット</button>
+              <button type="button" class="mod-filters__reset" data-filter-clear>フィルターをリセットする</button>
             </form>
           </aside>
         </div>
-        <p class="section__note">
-          ※ ダウンロードリンクは自身のサーバー/配布サービスのURL、またはリポジトリのリリースページなどに変更してください。
-        </p>
+        <p class="section__note">ダウンロード リンクが変更された場合は、新しい URL がすぐにここに表示されるように、assets/mods.js を更新します。</p>
       </section>
 
       <section class="section section--alt">
@@ -99,60 +96,48 @@
         </div>
         <div class="steps">
           <article class="step">
-            <h3 class="step__title">ミラーの活用</h3>
-            <p class="step__body">
-              バージョンごとに最低1つのバックアップリンクを用意しておくと、急なダウンロード障害にも備えられます。
-            </p>
+            <h3 class="step__title">ミラーを検証する</h3>
+            <p class="step__body">ミラーを信頼できるホストに限定し、チェックサムを文書化して、プレーヤー間の改ざんや混乱を防ぎます。</p>
           </article>
           <article class="step">
-            <h3 class="step__title">ハッシュ値の共有</h3>
-            <p class="step__body">
-              配布ファイルのSHA-256などハッシュ値を記載しておくと、改ざんチェックがしやすくなります。
-            </p>
+            <h3 class="step__title">ハッシュ値を共有する</h3>
+            <p class="step__body">SHA-256 または同様のハッシュを提供すると、誰もが MOD をロードする前に整合性を検証できます。</p>
           </article>
           <article class="step">
-            <h3 class="step__title">リリースノート</h3>
-            <p class="step__body">
-              変更点や既知の問題は`modData`の `changelog` に記載し、プレイヤーが更新内容をすぐ把握できるようにしましょう。
-            </p>
+            <h3 class="step__title">変更ログのメモを用意しておいてください</h3>
+            <p class="step__body">プレイヤーに各アップデートの変更ログ エントリをポイントして、重要な変更をすぐに確認できるようにします。</p>
           </article>
         </div>
       </section>
 
       <section class="section">
         <div class="section__header">
-          <h2 class="section__title">ヘルプが必要ですか？</h2>
-          <p class="section__subtitle">
-            バグ報告やサポートが必要な際は、連絡先ページまたは各Modカード内の依存関係リンクをご利用ください。
-          </p>
+          <h2 class="section__title">助けやサポートが必要ですか?</h2>
+          <p class="section__subtitle">問題が発生した場合、または直接のサポートが必要な場合は、次の問い合わせチャネルを使用してください。</p>
         </div>
         <div class="contact contact--simple">
           <div class="contact__item">
-            <h3>連絡先</h3>
-            <p>
-              <a href="mailto:yourname@example.com">yourname@example.com</a> までお気軽にどうぞ。
-            </p>
+            <h3>電子メール</h3>
+            <p><a href="mailto:yourname@example.com">yourname@example.com</a> サポートが必要な場合は、詳細な問題を yourname@example.com に送信してください。</p>
           </div>
           <div class="contact__item">
             <h3>コミュニティ</h3>
             <ul>
-              <li><a href="#">Discordサーバー</a></li>
-              <li><a href="#">X（旧Twitter）</a></li>
-              <li><a href="#">YouTubeチャンネル</a></li>
+              <li><a href="https://example.com/discord">Discordサーバー</a></li>
+              <li><a href="https://example.com/twitter">X（ツイッター）</a></li>
+              <li><a href="https://example.com/youtube">YouTube チャンネル</a></li>
             </ul>
           </div>
           <div class="contact__item">
             <h3>サポート</h3>
-            <p>
-              BoothやFantiaなど支援プラットフォームのリンクをここに掲載できます。
-            </p>
+            <p>Booth と Fantia でのサポート枠は準備中です。</p>
           </div>
         </div>
       </section>
     </main>
 
     <footer class="footer">
-      <p>&copy; <span id="year"></span> My Minecraft Mods. All rights reserved.</p>
+      <p>&copy; <span id="year"></span> My Minecraft Mods. 無断転載を禁じます。</p>
     </footer>
 
     <script src="assets/theme.js"></script>

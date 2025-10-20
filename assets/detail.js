@@ -1,21 +1,99 @@
 (() => {
+  let activeMod = null;
+  let detailContainer = null;
+
+  const TEXT = {
+  "detail.hero.download": "\u30c0\u30a6\u30f3\u30ed\u30fc\u30c9",
+  "detail.hero.downloadUnavailable": "\u30c0\u30a6\u30f3\u30ed\u30fc\u30c9\u4e0d\u53ef",
+  "detail.hero.back": "\u30ab\u30bf\u30ed\u30b0\u306b\u623b\u308b",
+  "detail.overview": "\u6982\u8981",
+  "detail.latestChanges": "\u6700\u65b0\u306e\u5909\u66f4\u70b9",
+  "detail.dependencies": "\u4f9d\u5b58\u95a2\u4fc2",
+  "detail.license": "\u30e9\u30a4\u30bb\u30f3\u30b9",
+  "detail.tags": "\u30bf\u30b0",
+  "detail.downloads": "\u30c0\u30a6\u30f3\u30ed\u30fc\u30c9",
+  "detail.notFound.title": "MOD\u304c\u898b\u3064\u304b\u308a\u307e\u305b\u3093",
+  "detail.notFound.summary": "\u8981\u6c42\u3055\u308c\u305f MOD \u304c\u898b\u3064\u304b\u308a\u307e\u305b\u3093\u3067\u3057\u305f\u3002",
+  "detail.notFound.link": "\u30ab\u30bf\u30ed\u30b0\u306b\u623b\u308b",
+  "environment.unknown": "\u672a\u77e5",
+  "meta.environment": "\u74b0\u5883",
+  "meta.minecraft": "\u30de\u30a4\u30f3\u30af\u30e9\u30d5\u30c8\u306e\u30d0\u30fc\u30b8\u30e7\u30f3",
+  "meta.version": "\u30d0\u30fc\u30b8\u30e7\u30f3",
+  "meta.fileSize": "\u30d5\u30a1\u30a4\u30eb\u30b5\u30a4\u30ba",
+  "meta.releaseDate": "\u767a\u58f2\u65e5"
+};
+  const TAG_LABELS = {
+  "survival": "\u30b5\u30d0\u30a4\u30d0\u30eb",
+  "quality_of_life": "\u751f\u6d3b\u306e\u8cea",
+  "gameplay": "\u30b2\u30fc\u30e0\u30d7\u30ec\u30a4",
+  "equipment": "\u88c5\u7f6e",
+  "lightweight": "\u8efd\u91cf",
+  "audio": "\u30aa\u30fc\u30c7\u30a3\u30aa",
+  "atmosphere": "\u96f0\u56f2\u6c17",
+  "building": "\u5efa\u7269",
+  "utility": "\u30e6\u30fc\u30c6\u30a3\u30ea\u30c6\u30a3"
+};
+  const ENVIRONMENT_LABELS = {
+  "client": "\u30af\u30e9\u30a4\u30a2\u30f3\u30c8",
+  "server": "\u30b5\u30fc\u30d0",
+  "client_server": "\u30af\u30e9\u30a4\u30a2\u30f3\u30c8\u3068\u30b5\u30fc\u30d0\u30fc",
+  "unknown": "\u672a\u77e5"
+};
+
+  function t(key) {
+    return TEXT[key] ?? key;
+  }
+
+  function tagLabel(key) {
+    return TAG_LABELS[key] ?? key;
+  }
+
+  function environmentLabel(key) {
+    return ENVIRONMENT_LABELS[key] ?? key;
+  }
+
+  function localizeText(value) {
+    if (value == null) return "";
+    if (typeof value === "string") return value;
+    if (typeof value === "object") {
+      if (value.ja) return value.ja;
+      if (value.en) return value.en;
+      const first = Object.values(value).find((entry) => entry);
+      return first ? String(first) : "";
+    }
+    return String(value);
+  }
+
+  function formatDate(value) {
+    if (!value) return "";
+    const match = /^([0-9]{4})-([0-9]{2})-([0-9]{2})$/.exec(String(value).trim());
+    if (match) {
+      const [, y, m, d] = match;
+      return `${parseInt(y, 10)}\u5e74${parseInt(m, 10)}\u6708${parseInt(d, 10)}\u65e5`;
+    }
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return String(value);
+    return `${date.getFullYear()}\u5e74${date.getMonth() + 1}\u6708${date.getDate()}\u65e5`;
+  }
+
   document.addEventListener("DOMContentLoaded", () => {
-    const container = document.getElementById("mod-detail");
-    if (!container) return;
+    detailContainer = document.getElementById("mod-detail");
+    if (!detailContainer) return;
 
     const params = new URLSearchParams(window.location.search);
     const slug = params.get("slug");
 
     const mods = Array.isArray(window.modData) ? window.modData : [];
-    const mod = mods.find((entry) => (entry.slug || slugify(entry.name)) === slug);
+    activeMod = mods.find((entry) => (entry.slug || slugify(localizeText(entry.name))) === slug) ?? null;
 
-    if (!mod) {
-      renderNotFound(container);
+    if (!activeMod) {
+      renderNotFound(detailContainer);
       return;
     }
 
-    renderHero(mod);
-    renderDetail(container, mod);
+    renderHero(activeMod);
+    renderDetail(detailContainer, activeMod);
+
   });
 
   function renderHero(mod) {
@@ -24,31 +102,41 @@
     const loaderEl = document.getElementById("mod-detail-loader");
     const downloadEl = document.getElementById("mod-detail-download");
 
+    const displayName = localizeText(mod.name) || "MOD\u8a73\u7d30";
+
     if (titleEl) {
-      titleEl.textContent = mod.name ?? "Mod Detail";
+      titleEl.textContent = displayName;
     }
 
     if (summaryEl) {
-      summaryEl.textContent = mod.summary || mod.description || "";
+      summaryEl.textContent = localizeText(mod.summary) || localizeText(mod.description) || "";
     }
 
     if (loaderEl) {
-      loaderEl.textContent = mod.loader ? `${mod.loader} / ${mod.environment ?? "環境不明"}` : "Mod Detail";
+      const loader = mod.loader || "";
+      const environment = mod.environment ? environmentLabel(mod.environment) : environmentLabel('unknown');
+      loaderEl.textContent = loader ? `${loader} / ${environment}` : environment;
     }
 
     if (downloadEl) {
       if (mod.downloadUrl) {
         downloadEl.href = mod.downloadUrl;
-        downloadEl.textContent = "ダウンロード";
+        downloadEl.textContent = t("detail.hero.download");
         downloadEl.classList.remove("is-disabled");
       } else {
         downloadEl.href = "#";
-        downloadEl.textContent = "ダウンロード情報なし";
+        downloadEl.textContent = t("detail.hero.downloadUnavailable");
         downloadEl.classList.add("is-disabled");
       }
     }
 
-    document.title = `${mod.name} | My Minecraft Mods`;
+    const backButton = document.querySelector(".hero__actions .hero__cta--ghost");
+    if (backButton) {
+      backButton.textContent = t("detail.hero.back");
+    }
+
+    document.title = `${displayName} | My Minecraft Mods`;
+
   }
 
   function renderDetail(container, mod) {
@@ -63,7 +151,7 @@
 
       const img = document.createElement("img");
       img.src = mod.image;
-      img.alt = `${mod.name} のプレビュー画像`;
+      img.alt = `${localizeText(mod.name)} preview`;
       img.loading = "lazy";
       img.decoding = "async";
       media.appendChild(img);
@@ -74,68 +162,63 @@
     const body = document.createElement("div");
     body.className = "mod-detail__body";
 
-    body.appendChild(buildMeta(mod));
+    const meta = buildMeta(mod);
+    if (meta) {
+      body.appendChild(meta);
+    }
 
     if (mod.description) {
-      const desc = document.createElement("div");
-      desc.className = "mod-detail__section";
+      const section = document.createElement("div");
+      section.className = "mod-detail__section";
 
       const heading = document.createElement("h2");
-      heading.textContent = "概要";
-      desc.appendChild(heading);
+      heading.textContent = t("detail.overview");
+      section.appendChild(heading);
 
-      splitParagraphs(mod.description).forEach((paragraph) => {
-        const p = document.createElement("p");
-        p.textContent = paragraph;
-        desc.appendChild(p);
-      });
-
-      body.appendChild(desc);
+      appendParagraphs(section, mod.description);
+      body.appendChild(section);
     }
 
     if (mod.changelog) {
-      const change = document.createElement("div");
-      change.className = "mod-detail__section";
+      const section = document.createElement("div");
+      section.className = "mod-detail__section";
 
       const heading = document.createElement("h2");
-      heading.textContent = "最新の更新内容";
-      change.appendChild(heading);
+      heading.textContent = t("detail.latestChanges");
+      section.appendChild(heading);
 
-      const p = document.createElement("p");
-      p.textContent = mod.changelog;
-      change.appendChild(p);
-
-      body.appendChild(change);
+      appendParagraphs(section, mod.changelog);
+      body.appendChild(section);
     }
 
     if (Array.isArray(mod.tags) && mod.tags.length) {
-      const tagsSection = document.createElement("div");
-      tagsSection.className = "mod-detail__section";
+      const section = document.createElement("div");
+      section.className = "mod-detail__section";
 
       const heading = document.createElement("h2");
-      heading.textContent = "タグ";
-      tagsSection.appendChild(heading);
+      heading.textContent = t("detail.tags");
+      section.appendChild(heading);
 
-      const list = document.createElement("div");
-      list.className = "mod-card__tags";
+      const tagsList = document.createElement("div");
+      tagsList.className = "mod-card__tags";
       mod.tags.forEach((tag) => {
         const chip = document.createElement("span");
         chip.className = "mod-card__tag";
-        chip.textContent = tag;
-        list.appendChild(chip);
+        chip.textContent = tagLabel(tag);
+        tagsList.appendChild(chip);
       });
+      section.appendChild(tagsList);
 
-      tagsSection.appendChild(list);
-      body.appendChild(tagsSection);
+      body.appendChild(section);
     }
 
     if (Array.isArray(mod.requirements) && mod.requirements.length) {
-      const req = document.createElement("div");
-      req.className = "mod-detail__section";
+      const section = document.createElement("div");
+      section.className = "mod-detail__section";
 
       const heading = document.createElement("h2");
-      heading.textContent = "前提Mod / 依存関係";
-      req.appendChild(heading);
+      heading.textContent = t("detail.dependencies");
+      section.appendChild(heading);
 
       const list = document.createElement("ul");
       list.className = "mod-detail__list";
@@ -147,52 +230,47 @@
           link.href = entry.url;
           link.target = "_blank";
           link.rel = "noopener";
-          link.textContent = entry.name ?? entry.url;
+          link.textContent = localizeText(entry.name);
           item.appendChild(link);
         } else if (entry?.name) {
-          item.textContent = entry.name;
-        } else {
-          item.textContent = String(entry ?? "");
+          item.textContent = localizeText(entry.name);
         }
         list.appendChild(item);
       });
 
-      req.appendChild(list);
-      body.appendChild(req);
+      section.appendChild(list);
+      body.appendChild(section);
     }
 
     if (mod.license) {
-      const license = document.createElement("div");
-      license.className = "mod-detail__section";
+      const section = document.createElement("div");
+      section.className = "mod-detail__section";
 
       const heading = document.createElement("h2");
-      heading.textContent = "利用条件 / ライセンス";
-      license.appendChild(heading);
+      heading.textContent = t("detail.license");
+      section.appendChild(heading);
 
-      const p = document.createElement("p");
-      p.textContent = mod.license;
-      license.appendChild(p);
-
-      body.appendChild(license);
+      appendParagraphs(section, mod.license);
+      body.appendChild(section);
     }
 
     if (mod.downloadUrl) {
-      const downloads = document.createElement("div");
-      downloads.className = "mod-detail__section";
+      const section = document.createElement("div");
+      section.className = "mod-detail__section";
 
       const heading = document.createElement("h2");
-      heading.textContent = "ダウンロード";
-      downloads.appendChild(heading);
+      heading.textContent = t("detail.downloads");
+      section.appendChild(heading);
 
       const link = document.createElement("a");
       link.className = "button button--primary";
       link.href = mod.downloadUrl;
       link.target = "_blank";
       link.rel = "noopener";
-      link.textContent = `${mod.version ?? ""} をダウンロード`.trim();
-      downloads.appendChild(link);
+      link.textContent = `${mod.version ?? ""} ${t("detail.hero.download")}`.trim();
+      section.appendChild(link);
 
-      body.appendChild(downloads);
+      body.appendChild(section);
     }
 
     wrapper.appendChild(body);
@@ -201,13 +279,13 @@
 
   function buildMeta(mod) {
     const entries = [
-      { label: "対応Minecraft", value: mod.minecraftVersion },
-      { label: "バージョン", value: mod.version },
-      { label: "ローダー", value: mod.loader },
-      { label: "環境", value: mod.environment },
-      { label: "ファイルサイズ", value: mod.fileSize },
-      { label: "公開日", value: formatDate(mod.releaseDate) }
-    ].filter((entry) => Boolean(entry.value));
+      mod.minecraftVersion ? { label: "meta.minecraft", value: mod.minecraftVersion } : null,
+      mod.version ? { label: "meta.version", value: mod.version } : null,
+      mod.loader ? { label: "meta.environment", value: `${mod.loader}` } : null,
+      mod.environment ? { label: "environment", value: mod.environment } : null,
+      mod.fileSize ? { label: "meta.fileSize", value: mod.fileSize } : null,
+      mod.releaseDate ? { label: "meta.releaseDate", value: formatDate(mod.releaseDate) } : null
+    ].filter(Boolean);
 
     if (!entries.length) {
       return null;
@@ -221,15 +299,28 @@
       row.className = "mod-detail__meta-row";
 
       const label = document.createElement("span");
-      label.className = "mod-detail__meta-label";
-      label.textContent = entry.label;
+      if (entry.label === "environment") {
+        label.className = "mod-detail__meta-label";
+        label.textContent = t("meta.environment");
 
-      const value = document.createElement("span");
-      value.className = "mod-detail__meta-value";
-      value.textContent = entry.value;
+        const value = document.createElement("span");
+        value.className = "mod-detail__meta-value";
+        value.textContent = environmentLabel(entry.value);
 
-      row.appendChild(label);
-      row.appendChild(value);
+        row.appendChild(label);
+        row.appendChild(value);
+      } else {
+        label.className = "mod-detail__meta-label";
+        label.textContent = t(entry.label);
+
+        const value = document.createElement("span");
+        value.className = "mod-detail__meta-value";
+        value.textContent = entry.value;
+
+        row.appendChild(label);
+        row.appendChild(value);
+      }
+
       meta.appendChild(row);
     });
 
@@ -237,42 +328,54 @@
   }
 
   function renderNotFound(container) {
+    if (container) {
+      container.textContent = "";
+      const message = document.createElement("div");
+      message.className = "mod-detail__empty";
+      message.innerHTML = `<p>${t("detail.notFound.summary")} <a href="mods.html">${t("detail.notFound.link")}</a></p>`;
+      container.appendChild(message);
+    }
+
     const titleEl = document.getElementById("mod-detail-title");
     const summaryEl = document.getElementById("mod-detail-summary");
     const downloadEl = document.getElementById("mod-detail-download");
 
-    if (titleEl) titleEl.textContent = "Modが見つかりません";
-    if (summaryEl) summaryEl.textContent = "指定されたModは存在しないか、非公開になっています。";
+    if (titleEl) titleEl.textContent = t("detail.notFound.title");
+    if (summaryEl) summaryEl.textContent = t("detail.notFound.summary");
     if (downloadEl) {
-      downloadEl.textContent = "ダウンロード不可";
-      downloadEl.classList.add("is-disabled");
+      downloadEl.textContent = t("detail.hero.downloadUnavailable");
       downloadEl.href = "#";
+      downloadEl.classList.add("is-disabled");
     }
 
-    document.title = "Mod Not Found | My Minecraft Mods";
+    const backButton = document.querySelector(".hero__actions .hero__cta--ghost");
+    if (backButton) {
+      backButton.textContent = t("detail.hero.back");
+    }
 
-    const message = document.createElement("div");
-    message.className = "mod-detail__empty";
-    message.innerHTML = `<p>Modが見つかりませんでした。<a href="index.html#mods">Mod一覧</a>に戻って別のModを探してください。</p>`;
+    document.title = "Mod\u304c\u898b\u3064\u304b\u308a\u307e\u305b\u3093 | My Minecraft Mods";
 
-    container.textContent = "";
-    container.appendChild(message);
   }
 
-  function splitParagraphs(text) {
-    return String(text)
+  function appendParagraphs(section, text) {
+    const localizedText = localizeText(text);
+    const lines = String(localizedText)
       .split(/\r?\n/)
       .map((line) => line.trim())
       .filter(Boolean);
-  }
 
-  function formatDate(value) {
-    if (!value) return "";
-    const date = new Date(value);
-    if (Number.isNaN(date.getTime())) return value;
-    return `${date.getFullYear()}年${String(date.getMonth() + 1).padStart(2, "0")}月${String(
-      date.getDate()
-    ).padStart(2, "0")}日`;
+    if (!lines.length) {
+      const p = document.createElement("p");
+      p.textContent = localizedText;
+      section.appendChild(p);
+      return;
+    }
+
+    lines.forEach((line) => {
+      const p = document.createElement("p");
+      p.textContent = line;
+      section.appendChild(p);
+    });
   }
 
   function slugify(value) {
@@ -282,3 +385,5 @@
       .replace(/^-+|-+$/g, "");
   }
 })();
+
+

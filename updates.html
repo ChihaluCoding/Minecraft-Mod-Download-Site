@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>MODの詳細 | My Minecraft Mods</title>
+    <title>My Minecraft Mods | アップデート</title>
     <script>
       (function () {
         try {
@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="assets/style.css" />
   </head>
   <body>
-    <header class="hero hero--detail">
+    <header class="hero hero--updates">
       <div class="hero__video-wrapper" aria-hidden="true">
         <video class="hero__video" autoplay muted loop playsinline></video>
       </div>
@@ -44,19 +44,23 @@
         </div>
       </nav>
       <div class="hero__content">
-        <p class="hero__subtitle" id="mod-detail-loader">MODデータをロード中...</p>
-        <h1 class="hero__title" id="mod-detail-title">MODの詳細をロード中です</h1>
-        <p class="hero__description" id="mod-detail-summary">MOD情報を取得するまでお待ちください。</p>
+        <p class="hero__subtitle">リリースログの概要</p>
+        <h1 class="hero__title">アップデート</h1>
+        <p class="hero__description">機能の追加、修正、計画されたロードマップのメモなど、リリースごとに詳細な変更ログを確認します。</p>
         <div class="hero__actions">
-          <a class="hero__cta" id="mod-detail-download" href="#" target="_blank" rel="noopener">ダウンロード</a>
-          <a class="hero__cta hero__cta--ghost" href="mods.html">カタログに戻る</a>
+          <a class="hero__cta" href="mods.html">Modカタログを開く</a>
+          <a class="hero__cta hero__cta--ghost" href="#updates-list">更新リストへジャンプ</a>
         </div>
       </div>
     </header>
 
     <main>
-      <section class="section">
-        <div id="mod-detail" class="mod-detail" aria-live="polite"></div>
+      <section class="section" id="updates-list-section">
+        <div class="section__header">
+          <h2 class="section__title">更新履歴</h2>
+          <p class="section__subtitle">すべての発表を時系列に参照します。</p>
+        </div>
+        <div id="updates-list" class="updates updates--list" aria-live="polite"></div>
       </section>
     </main>
 
@@ -65,8 +69,7 @@
     </footer>
 
     <script src="assets/theme.js"></script>
-    <script src="assets/mods.js"></script>
-    <script src="assets/detail.js"></script>
+    <script src="assets/updates.js"></script>
     <script src="assets/main.js"></script>
   </body>
 </html>
