@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mod Detail | My Minecraft Mods</title>
+    <script>
+      (function () {
+        try {
+          var savedTheme = localStorage.getItem("site-theme");
+          if (savedTheme) {
+            document.documentElement.dataset.theme = savedTheme;
+          }
+        } catch (error) {
+          /* ignore access errors */
+        }
+      })();
+    </script>
+    <link rel="stylesheet" href="assets/style.css" />
+  </head>
+  <body>
+    <header class="hero hero--detail">
+      <nav class="top-nav">
+        <a class="top-nav__brand" href="index.html">My Minecraft Mods</a>
+        <div class="top-nav__links">
+          <a href="index.html#mods">Mod一覧</a>
+          <a href="index.html#updates">更新情報</a>
+          <a href="downloads.html">ダウンロード</a>
+          <a href="index.html#contact">連絡先</a>
+        </div>
+        <div class="top-nav__controls">
+          <label class="theme-toggle">
+            <span class="visually-hidden">テーマ切り替え</span>
+            <select data-theme-select>
+              <option value="light-blue">ホワイト × 水色</option>
+              <option value="light-pink">ホワイト × 桜色</option>
+              <option value="dark">ダーク × 水色</option>
+            </select>
+          </label>
+        </div>
+      </nav>
+      <div class="hero__content">
+        <p class="hero__subtitle" id="mod-detail-loader">Mod Detail</p>
+        <h1 class="hero__title" id="mod-detail-title">読み込み中...</h1>
+        <p class="hero__description" id="mod-detail-summary">
+          Mod情報を読み込んでいます。
+        </p>
+        <div class="hero__actions">
+          <a class="hero__cta" id="mod-detail-download" href="#" target="_blank" rel="noopener">
+            ダウンロード
+          </a>
+          <a class="hero__cta hero__cta--ghost" href="index.html#mods">Mod一覧へ戻る</a>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="section">
+        <div id="mod-detail" class="mod-detail" aria-live="polite"></div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>&copy; <span id="year"></span> My Minecraft Mods. All rights reserved.</p>
+    </footer>
+
+    <script src="assets/theme.js"></script>
+    <script src="assets/mods.js"></script>
+    <script src="assets/main.js"></script>
+    <script src="assets/detail.js"></script>
+  </body>
+</html>
