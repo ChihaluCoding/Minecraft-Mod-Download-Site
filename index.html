@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Chihalu Mods - ホーム</title>
+    <title>Chihalu ModsWorks - ホーム</title>
     <script>
       (function () {
         try {
@@ -24,23 +24,28 @@
       <div class="hero__video-wrapper" aria-hidden="true">
         <video class="hero__video" autoplay muted loop playsinline></video>
       </div>
-      <nav class="top-nav">
+      <nav class="top-nav" data-nav>
+        <button class="top-nav__toggle" type="button" aria-expanded="false" aria-controls="top-nav-menu" aria-label="メニューを開く" data-nav-toggle>
+          <span class="top-nav__toggle-bar"></span>
+        </button>
         <a class="top-nav__brand" href="index.html">Chihalu Mods</a>
-        <div class="top-nav__links">
-          <a href="index.html">ホーム</a>
-          <a href="mods.html">Mod一覧</a>
-          <a href="updates.html">更新情報</a>
-          <a href="contact.html">不具合の報告</a>
-        </div>
-        <div class="top-nav__controls">
-          <div class="theme-toggle">
-            <span class="theme-toggle__label">現在のテーマ</span>
-            <div class="theme-toggle__select">
-              <select data-theme-select title="テーマを選択してください">
-                <option value="light-blue">ライト×シアン</option>
-                <option value="light-pink">ライト×ピンク</option>
-                <option value="dark">ダーク×シアン</option>
-              </select>
+        <div class="top-nav__menu" id="top-nav-menu" data-nav-menu>
+          <div class="top-nav__links">
+            <a href="index.html">ホーム</a>
+            <a href="mods.html">Mod一覧</a>
+            <a href="announcements.html">お知らせ</a>
+            <a href="contact.html">バグ報告</a>
+          </div>
+          <div class="top-nav__controls">
+            <div class="theme-toggle">
+              <span class="theme-toggle__label">現在のテーマ</span>
+              <div class="theme-toggle__select">
+                <select data-theme-select title="テーマを選択してください">
+                  <option value="light-blue">ライト×シアン</option>
+                  <option value="light-pink">ライト×ピンク</option>
+                  <option value="dark">ダーク×シアン</option>
+                </select>
+              </div>
             </div>
           </div>
         </div>
@@ -48,7 +53,7 @@
       <div class="hero__content">
         <p class="hero__subtitle">Minecraft Mod ダウンロード サイト</p>
         <h1 class="hero__title">Chihalu Mods</h1>
-        <p class="hero__description">明確な手順、依存関係を備えた Fabric、Forge、NeoForge MOD を参照し、最新のビルドに簡単にアクセスできます。</p>
+        <p class="hero__description">Minecraftの世界をもっと楽しくカスタマイズしよう！</p>
         <div class="hero__actions">
           <!-- Removed hero__cta and hero__cta--ghost elements -->
         </div>
@@ -56,14 +61,13 @@
     </header>
 
     <main>
-      <section class="section section--alt" id="updates">
+      <section class="section section--alt" id="announcements">
         <div class="section__header">
-          <h2 class="section__title">最新のアップデート</h2>
-          <p class="section__subtitle">最新の 3 つのアップデートがここに表示されます。</p>
+          <h2 class="section__title">お知らせ</h2>
         </div>
-        <div id="updates-preview" class="updates updates--preview" data-limit="3" aria-live="polite"></div>
+        <div id="announcements-preview" class="updates updates--preview" data-limit="3" aria-live="polite"></div>
         <div class="updates__actions">
-          <a class="button button--secondary" href="updates.html">もっと見る</a>
+          <a class="button button--secondary" href="announcements.html">もっと見る</a>
         </div>
       </section>
 
@@ -105,25 +109,27 @@
           <details class="faq__item">
             <summary>MODのロードに失敗するのはなぜですか?</summary>
             <p>Minecraft、ローダー、および必要なライブラリが MOD ページにリストされているバージョンを使用していることを確認してください。</p>
+            <p>または、他のModと競合している可能性があります。</p>
           </details>
           <details class="faq__item">
             <summary>ライセンスや使用条件はどこで読めますか?</summary>
-            <p>各 MOD の詳細ページには、再配布ルール、ビデオのガイドライン、その他の注意事項が記載されています。</p>
+            <p>こちらをご覧ください<a href="https://chihalucoding.github.io/Minecraft-Mod-License/" target="_blank" rel="noopener noreferrer">利用規約</a></p>
           </details>
           <details class="faq__item">
             <summary>バグを報告したり、機能をリクエストするにはどうすればよいですか?</summary>
-            <p>以下のチャネルを使用してご連絡ください。</p>
+            <p>報告ページにアクセスして、GitHubのIssueを作成してください。</p>
+            <p>報告ページへは<a href="contact.html">こちら</a>からアクセスできます。</p>
           </details>
         </div>
       </section>
     </main>
 
     <footer class="footer">
-      <p>&copy; <span id="year"></span> My Minecraft Mods. 無断転載を禁じます。</p>
+      <p>&copy; <span id="year"></span> My Minecraft Mods.</p>
     </footer>
 
     <script src="assets/theme.js"></script>
-    <script src="assets/updates.js"></script>
+    <script src="assets/announcements.js"></script>
     <script src="assets/mods.js"></script>
     <script src="assets/main.js"></script>
   </body>

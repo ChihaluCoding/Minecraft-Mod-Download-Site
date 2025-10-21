@@ -5,13 +5,17 @@
     loader: "",
     environment: ""
   };
+  const MODS_PER_PAGE = 21;
+  const ANNOUNCEMENTS_PER_PAGE = 21;
+  let currentModPage = 1;
+  let currentAnnouncementPage = 1;
 
   let allMods = [];
-  let allUpdates = [];
+  let allAnnouncements = [];
 
   const TEXT = {
-  "updates.empty": "\u307e\u3060\u5229\u7528\u53ef\u80fd\u306a\u30a2\u30c3\u30d7\u30c7\u30fc\u30c8\u306f\u3042\u308a\u307e\u305b\u3093\u3002",
-  "updates.card.link": "\u8a73\u7d30\u3092\u8aad\u3080",
+  "announcements.empty": "\u307e\u3060\u5229\u7528\u53ef\u80fd\u306a\u304a\u77e5\u3089\u305b\u306f\u3042\u308a\u307e\u305b\u3093\u3002",
+  "announcements.card.link": "\u8a73\u7d30\u3092\u8aad\u3080",
   "mods.empty": "\u5229\u7528\u53ef\u80fd\u306aMOD\u306f\u3042\u308a\u307e\u305b\u3093\u3002",
   "mods.emptyFiltered": "\u9078\u629e\u3057\u305f\u30d5\u30a3\u30eb\u30bf\u30fc\u306b\u4e00\u81f4\u3059\u308b MOD \u306f\u3042\u308a\u307e\u305b\u3093\u3002",
   "mods.card.untitled": "\u7121\u984c\u306eMOD",
@@ -86,7 +90,8 @@
   document.addEventListener("DOMContentLoaded", () => {
     injectCurrentYear();
     syncThemeSelectors();
-    initializeUpdates();
+    initializeMobileNav();
+    initializeAnnouncements();
     initializeModListing();
 
       });
@@ -115,47 +120,111 @@
     }
   }
 
-  function initializeUpdates() {
-    if (!Array.isArray(window.updatesData)) return;
-    allUpdates = [...window.updatesData].sort((a, b) => safeDate(b.date) - safeDate(a.date));
-    renderUpdatesPreview();
-    renderUpdatesList();
+  function initializeMobileNav() {
+    const nav = document.querySelector(".top-nav");
+    if (!nav) return;
+
+    const toggle = nav.querySelector("[data-nav-toggle]");
+    const menu = nav.querySelector("[data-nav-menu]");
+    if (!toggle || !menu) return;
+
+    const closeMenu = () => {
+      nav.classList.remove("top-nav--open");
+      toggle.setAttribute("aria-expanded", "false");
+      toggle.setAttribute("aria-label", "メニューを開く");
+    };
+
+    toggle.addEventListener("click", () => {
+      const willOpen = !nav.classList.contains("top-nav--open");
+      nav.classList.toggle("top-nav--open", willOpen);
+      toggle.setAttribute("aria-expanded", willOpen ? "true" : "false");
+      toggle.setAttribute("aria-label", willOpen ? "メニューを閉じる" : "メニューを開く");
+    });
+
+    menu.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        if (window.matchMedia("(max-width: 900px)").matches) {
+          closeMenu();
+        }
+      });
+    });
+
+    window.addEventListener("resize", () => {
+      if (!window.matchMedia("(max-width: 900px)").matches) {
+        closeMenu();
+      }
+    });
+
+    document.addEventListener("click", (event) => {
+      if (!nav.classList.contains("top-nav--open")) return;
+      if (!nav.contains(event.target)) {
+        closeMenu();
+      }
+    });
   }
 
-  function renderUpdatesPreview() {
-    const container = document.getElementById("updates-preview");
+  function initializeAnnouncements() {
+    if (!Array.isArray(window.announcementsData)) return;
+    allAnnouncements = [...window.announcementsData].sort((a, b) => safeDate(b.date) - safeDate(a.date));
+    currentAnnouncementPage = 1;
+    setupAnnouncementPaginationControls();
+    renderAnnouncementsPreview();
+    renderAnnouncementsList();
+  }
+
+  function renderAnnouncementsPreview() {
+    const container = document.getElementById("announcements-preview");
     if (!container) return;
 
     container.textContent = "";
     const limit = parseInt(container.dataset.limit ?? "", 10);
-    const updates = Number.isFinite(limit) && limit > 0 ? allUpdates.slice(0, limit) : allUpdates;
+    const announcements = Number.isFinite(limit) && limit > 0 ? allAnnouncements.slice(0, limit) : allAnnouncements;
 
-    if (!updates.length) {
-      container.appendChild(createUpdateEmpty(t("updates.empty")));
+    if (!announcements.length) {
+      container.appendChild(createAnnouncementEmpty(t("announcements.empty")));
       return;
     }
 
-    updates.forEach((update) => {
-      container.appendChild(createUpdateCard(update, true));
+    announcements.forEach((announcement) => {
+      container.appendChild(createAnnouncementCard(announcement, true));
     });
   }
 
-  function renderUpdatesList() {
-    const container = document.getElementById("updates-list");
+  function renderAnnouncementsList() {
+    const container = document.getElementById("announcements-list");
+    const pagination = document.getElementById("announcements-pagination");
     if (!container) return;
 
     container.textContent = "";
-    if (!allUpdates.length) {
-      container.appendChild(createUpdateEmpty(t("updates.empty")));
+    if (pagination) {
+      pagination.hidden = true;
+    }
+
+    if (!allAnnouncements.length) {
+      container.appendChild(createAnnouncementEmpty(t("announcements.empty")));
       return;
     }
 
-    allUpdates.forEach((update) => {
-      container.appendChild(createUpdateCard(update, false));
+    const totalPages = Math.max(1, Math.ceil(allAnnouncements.length / ANNOUNCEMENTS_PER_PAGE));
+    if (currentAnnouncementPage > totalPages) {
+      currentAnnouncementPage = totalPages;
+    }
+    if (currentAnnouncementPage < 1) {
+      currentAnnouncementPage = 1;
+    }
+
+    const startIndex = (currentAnnouncementPage - 1) * ANNOUNCEMENTS_PER_PAGE;
+    const endIndex = startIndex + ANNOUNCEMENTS_PER_PAGE;
+    const announcementsToRender = allAnnouncements.slice(startIndex, endIndex);
+
+    announcementsToRender.forEach((announcement) => {
+      container.appendChild(createAnnouncementCard(announcement, false));
     });
+
+    updatePagination(pagination, totalPages, currentAnnouncementPage);
   }
 
-  function createUpdateCard(update, isPreview) {
+  function createAnnouncementCard(announcement, isPreview) {
     const article = document.createElement("article");
     article.className = "update-card";
     if (isPreview) {
@@ -164,29 +233,29 @@
 
     const date = document.createElement("p");
     date.className = "update-card__date";
-    date.textContent = formatDate(update.date);
+    date.textContent = formatDate(announcement.date);
     article.appendChild(date);
 
     const title = document.createElement("h3");
     title.className = "update-card__title";
-    title.textContent = localizeText(update.title);
+    title.textContent = localizeText(announcement.title);
     article.appendChild(title);
 
-    if (update.body) {
+    if (announcement.body) {
       const body = document.createElement("p");
       body.className = "update-card__body";
-      body.textContent = localizeText(update.body);
+      body.textContent = localizeText(announcement.body);
       article.appendChild(body);
     }
 
-    if (update.link) {
+    if (announcement.link) {
       const actions = document.createElement("div");
       actions.className = "update-card__actions";
 
       const link = document.createElement("a");
       link.className = "button button--secondary";
-      link.href = update.link;
-      link.textContent = t("updates.card.link");
+      link.href = announcement.link;
+      link.textContent = t("announcements.card.link");
       actions.appendChild(link);
 
       article.appendChild(actions);
@@ -195,7 +264,7 @@
     return article;
   }
 
-  function createUpdateEmpty(message) {
+  function createAnnouncementEmpty(message) {
     const empty = document.createElement("p");
     empty.className = "updates__empty";
     empty.textContent = message;
@@ -204,6 +273,8 @@
 
   function initializeModListing() {
     allMods = Array.isArray(window.modData) ? [...window.modData] : [];
+    currentModPage = 1;
+    setupModPaginationControls();
     populateFilters();
     renderModCards();
   }
@@ -219,6 +290,7 @@
       injectFilterOptions(control, key, currentValue);
       control.addEventListener("change", (event) => {
         filterState[key] = event.target.value;
+        currentModPage = 1;
         renderModCards();
       });
     });
@@ -232,6 +304,7 @@
         panel.querySelectorAll("[data-filter]").forEach((control) => {
           control.value = "";
         });
+        currentModPage = 1;
         renderModCards();
       });
     }
@@ -285,9 +358,13 @@
 
   function renderModCards(mods = allMods) {
     const grid = document.getElementById("mod-grid");
+    const pagination = document.getElementById("mod-pagination");
     if (!grid) return;
 
     grid.textContent = "";
+    if (pagination) {
+      pagination.hidden = true;
+    }
 
     if (!mods.length) {
       grid.appendChild(createEmptyNotice(t("mods.empty")));
@@ -301,13 +378,136 @@
       return;
     }
 
-    const limit = parseInt(grid.dataset.limit ?? "", 10);
-    const modsToRender = Number.isFinite(limit) && limit > 0 ? filtered.slice(0, limit) : filtered;
+    const totalPages = Math.max(1, Math.ceil(filtered.length / MODS_PER_PAGE));
+    if (currentModPage > totalPages) {
+      currentModPage = totalPages;
+    }
+    if (currentModPage < 1) {
+      currentModPage = 1;
+    }
+
+    const startIndex = (currentModPage - 1) * MODS_PER_PAGE;
+    const endIndex = startIndex + MODS_PER_PAGE;
+    const modsToRender = filtered.slice(startIndex, endIndex);
 
     modsToRender.forEach((mod) => {
       grid.appendChild(createModCard(mod));
     });
+
+    updatePagination(pagination, totalPages, currentModPage);
   }
+
+  function setupModPaginationControls() {
+    const pagination = document.getElementById("mod-pagination");
+    if (!pagination || pagination.dataset.bound === "true") return;
+
+    pagination.addEventListener("click", (event) => {
+      const pageButton = event.target.closest("[data-page-number]");
+      if (pageButton) {
+        const nextPage = parseInt(pageButton.dataset.pageNumber ?? "", 10);
+        if (Number.isFinite(nextPage) && nextPage !== currentModPage) {
+          currentModPage = nextPage;
+          renderModCards();
+        }
+        return;
+      }
+
+      const control = event.target.closest("[data-page-action]");
+      if (!control) return;
+
+      const action = control.dataset.pageAction;
+      if (action === "prev" && currentModPage > 1) {
+        currentModPage -= 1;
+        renderModCards();
+      } else if (action === "next") {
+        currentModPage += 1;
+        renderModCards();
+      }
+    });
+
+    pagination.dataset.bound = "true";
+  }
+
+  function setupAnnouncementPaginationControls() {
+    const pagination = document.getElementById("announcements-pagination");
+    if (!pagination || pagination.dataset.bound === "true") return;
+
+    pagination.addEventListener("click", (event) => {
+      const pageButton = event.target.closest("[data-page-number]");
+      if (pageButton) {
+        const nextPage = parseInt(pageButton.dataset.pageNumber ?? "", 10);
+        if (Number.isFinite(nextPage) && nextPage !== currentAnnouncementPage) {
+          currentAnnouncementPage = nextPage;
+          renderAnnouncementsList();
+        }
+        return;
+      }
+
+      const control = event.target.closest("[data-announcement-page-action]");
+      if (!control) return;
+
+      const action = control.dataset.announcementPageAction;
+      if (action === "prev" && currentAnnouncementPage > 1) {
+        currentAnnouncementPage -= 1;
+        renderAnnouncementsList();
+      } else if (action === "next") {
+        currentAnnouncementPage += 1;
+        renderAnnouncementsList();
+      }
+    });
+
+    pagination.dataset.bound = "true";
+  }
+
+  function updatePagination(pagination, totalPages, currentPage) {
+    if (!pagination) return;
+
+    if (totalPages < 1) {
+      pagination.hidden = true;
+      return;
+    }
+
+    pagination.hidden = false;
+
+    const pageContainer = pagination.querySelector("[data-pagination-pages]");
+    if (pageContainer) {
+      pageContainer.textContent = "";
+
+      for (let page = 1; page <= totalPages; page += 1) {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "mod-pagination__page";
+        button.dataset.pageNumber = String(page);
+        button.textContent = String(page);
+        button.setAttribute("aria-label", `${page}ページ目`);
+        if (page === currentPage) {
+          button.classList.add("mod-pagination__page--current");
+          button.disabled = true;
+          button.setAttribute("aria-current", "page");
+        }
+        pageContainer.appendChild(button);
+      }
+    }
+
+    const prev = pagination.querySelector('[data-page-action="prev"]');
+    const next = pagination.querySelector('[data-page-action="next"]');
+    const announcementPrev = pagination.querySelector('[data-announcement-page-action="prev"]');
+    const announcementNext = pagination.querySelector('[data-announcement-page-action="next"]');
+
+    if (prev) {
+      prev.disabled = currentPage <= 1;
+    }
+    if (next) {
+      next.disabled = currentPage >= totalPages;
+    }
+    if (announcementPrev) {
+      announcementPrev.disabled = currentPage <= 1;
+    }
+    if (announcementNext) {
+      announcementNext.disabled = currentPage >= totalPages;
+    }
+  }
+
 
   function createEmptyNotice(message) {
     const empty = document.createElement("p");
@@ -524,5 +724,3 @@
       .replace(/^-+|-+$/g, "");
   }
 })();
-
-

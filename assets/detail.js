@@ -1,6 +1,14 @@
 (() => {
   let activeMod = null;
   let detailContainer = null;
+  let downloadModal = null;
+  let lastFocusedElement = null;
+  const downloadState = {
+    mod: null,
+    entries: [],
+    currentVersion: "",
+    currentLoader: ""
+  };
 
   const TEXT = {
   "detail.hero.download": "\u30c0\u30a6\u30f3\u30ed\u30fc\u30c9",
@@ -12,6 +20,11 @@
   "detail.license": "\u30e9\u30a4\u30bb\u30f3\u30b9",
   "detail.tags": "\u30bf\u30b0",
   "detail.downloads": "\u30c0\u30a6\u30f3\u30ed\u30fc\u30c9",
+  "detail.download.previous": "\u904e\u53bb\u30d0\u30fc\u30b8\u30e7\u30f3",
+  "detail.download.title": "\u30c0\u30a6\u30f3\u30ed\u30fc\u30c9\u8a2d\u5b9a",
+  "detail.download.chooseVersion": "\u30b2\u30fc\u30e0\u30d0\u30fc\u30b8\u30e7\u30f3\u3092\u9078\u629e",
+  "detail.download.chooseLoader": "\u30ed\u30fc\u30c0\u30fc\u3092\u9078\u629e",
+  "detail.download.cancel": "\u30ad\u30e3\u30f3\u30bb\u30eb",
   "detail.notFound.title": "MOD\u304c\u898b\u3064\u304b\u308a\u307e\u305b\u3093",
   "detail.notFound.summary": "\u8981\u6c42\u3055\u308c\u305f MOD \u304c\u898b\u3064\u304b\u308a\u307e\u305b\u3093\u3067\u3057\u305f\u3002",
   "detail.notFound.link": "\u30ab\u30bf\u30ed\u30b0\u306b\u623b\u308b",
@@ -19,8 +32,11 @@
   "meta.environment": "\u74b0\u5883",
   "meta.minecraft": "\u30de\u30a4\u30f3\u30af\u30e9\u30d5\u30c8\u306e\u30d0\u30fc\u30b8\u30e7\u30f3",
   "meta.version": "\u30d0\u30fc\u30b8\u30e7\u30f3",
-  "meta.fileSize": "\u30d5\u30a1\u30a4\u30eb\u30b5\u30a4\u30ba",
-  "meta.releaseDate": "\u767a\u58f2\u65e5"
+  "meta.releaseDate": "\u30ea\u30ea\u30fc\u30b9\u65e5",
+  "meta.updatedDate": "\u66f4\u65b0\u65e5",
+  "detail.download.releaseDate": "\u30ea\u30ea\u30fc\u30b9\u65e5",
+  "detail.download.latest": "\u6700\u65b0",
+  "mods.card.untitled": "\u7121\u984c\u306eMOD"
 };
   const TAG_LABELS = {
   "survival": "\u30b5\u30d0\u30a4\u30d0\u30eb",
@@ -50,6 +66,12 @@
 
   function environmentLabel(key) {
     return ENVIRONMENT_LABELS[key] ?? key;
+  }
+
+  function safeDate(value) {
+    if (!value) return 0;
+    const date = new Date(value);
+    return Number.isNaN(date.getTime()) ? 0 : date.getTime();
   }
 
   function localizeText(value) {
@@ -100,7 +122,17 @@
     const titleEl = document.getElementById("mod-detail-title");
     const summaryEl = document.getElementById("mod-detail-summary");
     const loaderEl = document.getElementById("mod-detail-loader");
-    const downloadEl = document.getElementById("mod-detail-download");
+    let downloadEl = document.getElementById("mod-detail-download");
+    if (!downloadEl) {
+      const heroActions = document.querySelector(".hero__actions");
+      if (heroActions) {
+        downloadEl = document.createElement("button");
+        downloadEl.type = "button";
+        downloadEl.id = "mod-detail-download";
+        downloadEl.className = "button button--primary";
+        heroActions.appendChild(downloadEl);
+      }
+    }
 
     const displayName = localizeText(mod.name) || "MOD\u8a73\u7d30";
 
@@ -119,14 +151,18 @@
     }
 
     if (downloadEl) {
-      if (mod.downloadUrl) {
-        downloadEl.href = mod.downloadUrl;
+      const versions = normalizeVersions(mod);
+      const latest = versions[0];
+      if (latest) {
         downloadEl.textContent = t("detail.hero.download");
         downloadEl.classList.remove("is-disabled");
+        downloadEl.disabled = false;
+        downloadEl.onclick = () => openDownloadModal(mod, { version: latest.minecraftVersion ?? latest.version, loader: latest.loader });
       } else {
-        downloadEl.href = "#";
         downloadEl.textContent = t("detail.hero.downloadUnavailable");
         downloadEl.classList.add("is-disabled");
+        downloadEl.disabled = true;
+        downloadEl.onclick = null;
       }
     }
 
@@ -250,11 +286,21 @@
       heading.textContent = t("detail.license");
       section.appendChild(heading);
 
-      appendParagraphs(section, mod.license);
+      const link = document.createElement("a");
+      link.href = "https://chihalucoding.github.io/Minecraft-Mod-License/";
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      link.textContent = "Chihalu-License";
+
+      const paragraph = document.createElement("p");
+      paragraph.appendChild(link);
+      section.appendChild(paragraph);
+
       body.appendChild(section);
     }
 
-    if (mod.downloadUrl) {
+    const versions = normalizeVersions(mod);
+    if (versions.length) {
       const section = document.createElement("div");
       section.className = "mod-detail__section";
 
@@ -262,13 +308,32 @@
       heading.textContent = t("detail.downloads");
       section.appendChild(heading);
 
-      const link = document.createElement("a");
-      link.className = "button button--primary";
-      link.href = mod.downloadUrl;
-      link.target = "_blank";
-      link.rel = "noopener";
-      link.textContent = `${mod.version ?? ""} ${t("detail.hero.download")}`.trim();
-      section.appendChild(link);
+      const latest = versions[0];
+      if (latest) {
+        const latestContainer = document.createElement("div");
+        latestContainer.className = "mod-detail__download-list mod-detail__download-list--single";
+        latestContainer.appendChild(createDownloadRow(mod, latest, true));
+        section.appendChild(latestContainer);
+      }
+
+      if (versions.length > 1) {
+        const wrapper = document.createElement("details");
+        wrapper.className = "mod-detail__versions";
+
+        const summary = document.createElement("summary");
+        summary.textContent = t("detail.download.previous");
+        wrapper.appendChild(summary);
+
+        const list = document.createElement("div");
+        list.className = "mod-detail__download-list";
+
+        versions.slice(1).forEach((entry) => {
+          list.appendChild(createDownloadRow(mod, entry, false));
+        });
+
+        wrapper.appendChild(list);
+        section.appendChild(wrapper);
+      }
 
       body.appendChild(section);
     }
@@ -283,8 +348,8 @@
       mod.version ? { label: "meta.version", value: mod.version } : null,
       mod.loader ? { label: "meta.environment", value: `${mod.loader}` } : null,
       mod.environment ? { label: "environment", value: mod.environment } : null,
-      mod.fileSize ? { label: "meta.fileSize", value: mod.fileSize } : null,
-      mod.releaseDate ? { label: "meta.releaseDate", value: formatDate(mod.releaseDate) } : null
+      mod.releaseDate ? { label: "meta.releaseDate", value: formatDate(mod.releaseDate) } : null,
+      mod.updatedDate ? { label: "meta.updatedDate", value: formatDate(mod.updatedDate) } : null
     ].filter(Boolean);
 
     if (!entries.length) {
@@ -344,8 +409,9 @@
     if (summaryEl) summaryEl.textContent = t("detail.notFound.summary");
     if (downloadEl) {
       downloadEl.textContent = t("detail.hero.downloadUnavailable");
-      downloadEl.href = "#";
       downloadEl.classList.add("is-disabled");
+      downloadEl.disabled = true;
+      downloadEl.onclick = null;
     }
 
     const backButton = document.querySelector(".hero__actions .hero__cta--ghost");
@@ -384,6 +450,359 @@
       .replace(/[^a-z0-9]+/g, "-")
       .replace(/^-+|-+$/g, "");
   }
+
+  function openDownloadModal(mod, initial = {}) {
+    if (!mod) return;
+
+    const modal = ensureDownloadModal();
+    const versionSelect = modal.querySelector("[data-download-version]");
+    const loaderSelect = modal.querySelector("[data-download-loader]");
+    const confirmButton = modal.querySelector("[data-download-confirm]");
+    const titleEl = modal.querySelector(".download-modal__title");
+
+    lastFocusedElement = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+
+    downloadState.mod = mod;
+    downloadState.entries = normalizeVersions(mod);
+
+    const versions = uniqueVersions(downloadState.entries);
+    downloadState.currentVersion = setVersionOptions(versionSelect, versions, initial.version);
+
+    const loaders = uniqueLoadersForVersion(downloadState.entries, downloadState.currentVersion);
+    downloadState.currentLoader = setLoaderOptions(loaderSelect, loaders, initial.loader ?? mod.loader ?? "");
+
+    if (versionSelect) {
+      versionSelect.disabled = versions.length <= 1;
+      versionSelect.onchange = () => {
+        downloadState.currentVersion = versionSelect.value;
+        const nextLoaders = uniqueLoadersForVersion(downloadState.entries, downloadState.currentVersion);
+        downloadState.currentLoader = setLoaderOptions(loaderSelect, nextLoaders, downloadState.currentLoader);
+        if (loaderSelect) {
+          loaderSelect.disabled = nextLoaders.length <= 1;
+        }
+        updateConfirmButton();
+      };
+    }
+
+    if (loaderSelect) {
+      loaderSelect.disabled = loaders.length <= 1;
+      loaderSelect.onchange = () => {
+        downloadState.currentLoader = loaderSelect.value;
+        updateConfirmButton();
+      };
+    }
+
+    if (confirmButton) {
+      confirmButton.onclick = () => {
+        const entry = findDownloadEntry(downloadState.entries, downloadState.currentVersion, downloadState.currentLoader);
+        if (entry?.downloadUrl) {
+          closeDownloadModal();
+          window.location.href = entry.downloadUrl;
+        }
+      };
+    }
+
+    if (titleEl) {
+      titleEl.textContent = `${localizeText(mod.name)} - ${t("detail.download.title")}`;
+    }
+
+    updateConfirmButton();
+
+    modal.hidden = false;
+    modal.setAttribute("aria-hidden", "false");
+    document.body.classList.add("is-modal-open");
+    requestAnimationFrame(() => {
+      modal.classList.add("is-visible");
+    });
+
+    const focusTarget =
+      (versionSelect && !versionSelect.disabled && versionSelect.options.length) ? versionSelect :
+      (loaderSelect && !loaderSelect.disabled && loaderSelect.options.length ? loaderSelect : confirmButton);
+    if (focusTarget && typeof focusTarget.focus === "function") {
+      focusTarget.focus();
+    }
+
+    function updateConfirmButton() {
+      if (!confirmButton) return;
+      const entry = findDownloadEntry(downloadState.entries, downloadState.currentVersion, downloadState.currentLoader);
+      confirmButton.disabled = !entry || !entry.downloadUrl;
+    }
+  }
+
+  function ensureDownloadModal() {
+    if (downloadModal) return downloadModal;
+
+    downloadModal = document.createElement("div");
+    downloadModal.className = "download-modal";
+    downloadModal.hidden = true;
+    downloadModal.setAttribute("aria-hidden", "true");
+    downloadModal.innerHTML = `
+      <div class="download-modal__backdrop" data-download-dismiss></div>
+      <div class="download-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="download-modal-title">
+        <button type="button" class="download-modal__close" data-download-dismiss aria-label="${t("detail.download.cancel")}">×</button>
+        <h2 class="download-modal__title" id="download-modal-title">${t("detail.download.title")}</h2>
+        <div class="download-modal__fields">
+          <label class="download-modal__field">
+            <span>${t("detail.download.chooseVersion")}</span>
+            <select data-download-version></select>
+          </label>
+          <label class="download-modal__field">
+            <span>${t("detail.download.chooseLoader")}</span>
+            <select data-download-loader></select>
+          </label>
+        </div>
+        <div class="download-modal__actions">
+          <button type="button" class="button button--secondary" data-download-dismiss>${t("detail.download.cancel")}</button>
+          <button type="button" class="button button--primary" data-download-confirm>${t("detail.hero.download")}</button>
+        </div>
+      </div>
+    `;
+
+    document.body.appendChild(downloadModal);
+
+    const dialog = downloadModal.querySelector(".download-modal__dialog");
+    if (dialog) {
+      dialog.addEventListener("click", (event) => event.stopPropagation());
+    }
+
+    downloadModal.querySelectorAll("[data-download-dismiss]").forEach((element) => {
+      element.addEventListener("click", (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        closeDownloadModal();
+      });
+    });
+
+    return downloadModal;
+  }
+
+  function closeDownloadModal() {
+    if (!downloadModal || downloadModal.hidden) return;
+
+    downloadModal.classList.remove("is-visible");
+    downloadModal.hidden = true;
+    downloadModal.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("is-modal-open");
+
+    downloadState.mod = null;
+    downloadState.entries = [];
+    downloadState.currentVersion = "";
+    downloadState.currentLoader = "";
+
+    if (lastFocusedElement && typeof lastFocusedElement.focus === "function") {
+      lastFocusedElement.focus();
+    }
+  }
+
+  function uniqueVersions(entries) {
+    const seen = new Map();
+
+    entries.forEach((entry) => {
+      const value = entry.minecraftVersion ?? entry.version ?? "";
+      const key = normalizeValue(value);
+      if (!seen.has(key)) {
+        let label = value;
+        if (entry.minecraftVersion && entry.version) {
+          label = `${entry.minecraftVersion} (${t("meta.version")}: ${entry.version})`;
+        } else if (!label) {
+          label = t("detail.download.chooseVersion");
+        }
+        seen.set(key, { value, label });
+      }
+    });
+
+    return [...seen.values()];
+  }
+
+  function uniqueLoadersForVersion(entries, version) {
+    const normalizedVersion = normalizeValue(version);
+    const seen = new Map();
+
+    entries.forEach((entry) => {
+      const entryVersionKey = normalizeValue(entry.minecraftVersion ?? entry.version);
+      if (normalizedVersion && entryVersionKey !== normalizedVersion) return;
+      const loader = entry.loader ?? "";
+      const key = normalizeValue(loader);
+      if (!seen.has(key)) {
+        seen.set(key, loader);
+      }
+    });
+
+    if (!seen.size) {
+      entries.forEach((entry) => {
+        const loader = entry.loader ?? "";
+        const key = normalizeValue(loader);
+        if (!seen.has(key)) {
+          seen.set(key, loader);
+        }
+      });
+    }
+
+    const loaders = [...seen.values()];
+    return loaders.length ? loaders : [""];
+  }
+
+  function setVersionOptions(selectEl, items, desired) {
+    if (!selectEl) return "";
+    const values = items.map((item) => item.value);
+    const resolved = chooseValue(values, desired);
+    selectEl.textContent = "";
+
+    if (!items.length) {
+      const option = document.createElement("option");
+      option.value = "";
+      option.textContent = t("detail.download.chooseVersion");
+      selectEl.appendChild(option);
+      selectEl.value = "";
+      return "";
+    }
+
+    items.forEach(({ value, label }) => {
+      const option = document.createElement("option");
+      option.value = value;
+      option.textContent = label || value;
+      selectEl.appendChild(option);
+    });
+    selectEl.value = resolved;
+    return resolved;
+  }
+
+  function setLoaderOptions(selectEl, values, desired) {
+    if (!selectEl) return "";
+    const resolved = chooseValue(values, desired);
+    selectEl.textContent = "";
+
+    if (!values.length) {
+      const option = document.createElement("option");
+      option.value = "";
+      option.textContent = t("detail.download.chooseLoader");
+      selectEl.appendChild(option);
+      selectEl.value = "";
+      return "";
+    }
+
+    values.forEach((value) => {
+      const option = document.createElement("option");
+      option.value = value;
+      option.textContent = value || t("environment.unknown");
+      selectEl.appendChild(option);
+    });
+    selectEl.value = resolved;
+    return resolved;
+  }
+
+  function chooseValue(values, preferred) {
+    if (preferred) {
+      const match = values.find((value) => normalizeValue(value) === normalizeValue(preferred));
+      if (match != null) return match;
+    }
+    return values[0] ?? "";
+  }
+
+  function findDownloadEntry(entries, version, loader) {
+    if (!entries.length) return null;
+    const versionKey = normalizeValue(version);
+    const loaderKey = normalizeValue(loader);
+
+    let candidate = entries.find((entry) => {
+      const entryVersionKey = normalizeValue(entry.minecraftVersion ?? entry.version);
+      return entryVersionKey === versionKey && normalizeValue(entry.loader) === loaderKey;
+    });
+
+    if (!candidate && versionKey) {
+      candidate = entries.find((entry) => normalizeValue(entry.minecraftVersion ?? entry.version) === versionKey);
+    }
+
+    if (!candidate && loaderKey) {
+      candidate = entries.find((entry) => normalizeValue(entry.loader) === loaderKey);
+    }
+
+    return candidate ?? entries[0] ?? null;
+  }
+
+  function normalizeValue(value) {
+    return String(value ?? "").trim().toLowerCase();
+  }
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && downloadModal && !downloadModal.hidden) {
+      event.preventDefault();
+      closeDownloadModal();
+    }
+  });
+
+  function createDownloadRow(mod, entry, isLatest) {
+    const item = document.createElement("div");
+    item.className = "mod-detail__download-item";
+
+    const info = document.createElement("div");
+    info.className = "mod-detail__download-info";
+
+    const title = document.createElement("span");
+    title.className = "mod-detail__download-version";
+    title.textContent = entry.version ?? t("mods.card.untitled");
+    info.appendChild(title);
+
+    if (isLatest) {
+      const badge = document.createElement("span");
+      badge.className = "mod-detail__download-badge";
+      badge.textContent = t("detail.download.latest");
+      info.appendChild(badge);
+    }
+
+    item.appendChild(info);
+
+    const loaderValue = entry.loader ?? mod.loader ?? "";
+
+    if (entry.downloadUrl) {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = isLatest ? "button button--primary" : "button button--secondary";
+      button.textContent = t("detail.hero.download");
+      button.dataset.version = entry.minecraftVersion ?? entry.version ?? "";
+      if (entry.version) {
+        button.dataset.modVersion = entry.version;
+      }
+      button.dataset.loader = loaderValue;
+      button.addEventListener("click", () => {
+        openDownloadModal(mod, { version: entry.minecraftVersion ?? entry.version, loader: loaderValue });
+      });
+      item.appendChild(button);
+    } else {
+      const unavailable = document.createElement("span");
+      unavailable.className = "mod-detail__download-unavailable";
+      unavailable.textContent = t("detail.hero.downloadUnavailable");
+      item.appendChild(unavailable);
+    }
+
+    return item;
+  }
+
+  function normalizeVersions(mod) {
+    if (Array.isArray(mod.versions) && mod.versions.length) {
+      return [...mod.versions]
+        .map((entry) => ({
+          version: entry.version ?? mod.version,
+          releaseDate: entry.releaseDate ?? mod.releaseDate,
+          downloadUrl: entry.downloadUrl ?? mod.downloadUrl,
+          minecraftVersion: entry.minecraftVersion ?? mod.minecraftVersion,
+          loader: entry.loader ?? mod.loader
+        }))
+        .sort((a, b) => safeDate(b.releaseDate) - safeDate(a.releaseDate));
+    }
+
+    if (mod.downloadUrl) {
+      return [
+        {
+          version: mod.version,
+          releaseDate: mod.releaseDate,
+          downloadUrl: mod.downloadUrl,
+          minecraftVersion: mod.minecraftVersion,
+          loader: mod.loader
+        }
+      ];
+    }
+
+    return [];
+  }
 })();
-
-

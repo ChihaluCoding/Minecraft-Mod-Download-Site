@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My Minecraft Mods | お問い合わせ</title>
+    <title>Chihalu ModsWorks - バグ報告</title>
     <script>
       (function () {
         try {
@@ -22,65 +22,134 @@
       <div class="hero__video-wrapper" aria-hidden="true">
         <video class="hero__video" autoplay muted loop playsinline></video>
       </div>
-      <nav class="top-nav">
-        <a class="top-nav__brand" href="index.html">My Minecraft Mods</a>
-        <div class="top-nav__links">
-          <a href="index.html">ホーム</a>
-          <a href="mods.html">Mod一覧</a>
-          <a href="updates.html">更新情報</a>
-          <a href="contact.html">不具合の報告</a>
-        </div>
-        <div class="top-nav__controls">
-          <div class="theme-toggle">
-            <span class="theme-toggle__label">テーマを変更</span>
-            <div class="theme-toggle__select">
-              <select data-theme-select title="テーマを選択してください">
-                <option value="light-blue">ライト×シアン</option>
-                <option value="light-pink">ライト×ピンク</option>
-                <option value="dark">ダーク×シアン</option>
-              </select>
+      <nav class="top-nav" data-nav>
+        <button class="top-nav__toggle" type="button" aria-expanded="false" aria-controls="top-nav-menu" aria-label="メニューを開く" data-nav-toggle>
+          <span class="top-nav__toggle-bar"></span>
+        </button>
+        <a class="top-nav__brand" href="index.html">Chihalu Mods</a>
+        <div class="top-nav__menu" id="top-nav-menu" data-nav-menu>
+          <div class="top-nav__links">
+            <a href="index.html">ホーム</a>
+            <a href="mods.html">Mod一覧</a>
+            <a href="announcements.html">お知らせ</a>
+            <a href="contact.html">バグ報告</a>
+          </div>
+          <div class="top-nav__controls">
+            <div class="theme-toggle">
+              <span class="theme-toggle__label">現在のテーマ</span>
+              <div class="theme-toggle__select">
+                <select data-theme-select title="テーマを選択してください">
+                  <option value="light-blue">ライト×シアン</option>
+                  <option value="light-pink">ライト×ピンク</option>
+                  <option value="dark">ダーク×シアン</option>
+                </select>
+              </div>
             </div>
           </div>
         </div>
       </nav>
       <div class="hero__content">
-        <p class="hero__subtitle">フィードバックや質問をいつでも共有してください</p>
-        <h1 class="hero__title">接触</h1>
-        <p class="hero__description">電子メールまたはコミュニティ チャネルを使用して、バグを報告したり、機能をリクエストしたり、コラボレーションについて話し合ったりできます。</p>
+        <p class="hero__subtitle">GitHub Issues で不具合報告を受け付けています</p>
+        <h1 class="hero__title">バグ報告のお願い</h1>
+        <p class="hero__description">下記のポイントを参考に Issue を作成していただくと迅速に確認できます。</p>
         <div class="hero__actions">
         </div>
       </div>
     </header>
 
     <main>
-      <section class="section" id="contact-section">
+      <section class="section section--contact" id="contact-section">
         <div class="section__header">
-          <h2 class="section__title">お問い合わせとサポート</h2>
-          <p class="section__subtitle">ご質問、バグレポート、コラボレーションに関するお問い合わせなど、お気軽にお問い合わせください。</p>
+          <h2 class="section__title">共有してほしい情報</h2>
+          <p class="section__subtitle">Issues には以下の情報を箇条書きで記載してください。情報量が多いほど、原因調査と修正の優先判断がスムーズになります。</p>
         </div>
-        <div class="contact contact--simple">
-          <div class="contact__item">
-            <h3>電子メール</h3>
-            <p><a href="mailto:yourname@example.com">yourname@example.com</a> 詳細なメッセージを yourname@example.com に送信してください。</p>
-          </div>
-          <div class="contact__item">
-            <h3>コミュニティ</h3>
-            <ul>
-              <li><a href="https://example.com/discord">Discordサーバー</a></li>
-              <li><a href="https://example.com/twitter">X（ツイッター）</a></li>
-              <li><a href="https://example.com/youtube">YouTube チャンネル</a></li>
+
+        <div class="contact-grid contact-grid--single">
+          <article class="contact-card contact-card--bug">
+            <h3 class="contact-card__title">記入例</h3>
+            <ul class="contact-card__list">
+              <li>Mod名</li>
+              <li>発生した症状と期待する挙動</li>
+              <li>再現手順（スクリーンショット / ログがあればリンクでも可）</li>
+              <li>使用している Minecraft / ローダー / Mod のバージョン</li>
+              <li>導入している関連 Mod やリソースパック</li>
             </ul>
+          </article>
+        </div>
+
+        <aside class="contact-checklist">
+          <h3 class="contact-checklist__title">Issues 作成前のチェック</h3>
+          <ul class="contact-checklist__list">
+            <li>他のModを無効化して再現するか確認した</li>
+            <li>既存の Issues に同じ内容がないか検索した</li>
+            <li>最新バージョンでバグが生じるか確認した</li>
+            <li>ログ・スクリーンショットを用意した</li>
+            <li>問題の発生条件を整理した</li>
+          </ul>
+          <p class="contact-checklist__note">準備が整っているほど、修正が円滑に進みます。</p>
+        </aside>
+
+        <div class="contact-steps">
+          <div class="contact-step">
+            <span class="contact-step__number">1</span>
+            <div>
+              <h4 class="contact-step__title">Issues を新規作成</h4>
+              <p class="contact-step__text">リポジトリの「New issue」ボタンからバグ報告用の Issues を作成します。</p>
+            </div>
           </div>
-          <div class="contact__item">
-            <h3>サポート</h3>
-            <p>Booth と Fantia でのサポート枠は準備中です。</p>
+          <div class="contact-step">
+            <span class="contact-step__number">2</span>
+            <div>
+              <h4 class="contact-step__title">情報を入力</h4>
+              <p class="contact-step__text">上記の共有内容を参考に、再現手順や環境情報を箇条書きで記載してください。</p>
+            </div>
+          </div>
+          <div class="contact-step">
+            <span class="contact-step__number">3</span>
+            <div>
+              <h4 class="contact-step__title">フォローアップ</h4>
+              <p class="contact-step__text">追加情報が分かった場合は、同じ Issues にコメントで追記をお願いします。</p>
+            </div>
           </div>
         </div>
+
+        <div class="contact__cta">
+          <a class="button button--primary" href="https://github.com/ChihaluCoding/Minecraft-Mod-Download-Site/issues/new" target="_blank" rel="noopener">GitHub Issues を開く</a>
+        </div>
+
+        <div class="faq">
+          <details class="faq__item">
+            <summary>報告したバグが修正されたかどうかはどうやってわかりますか?</summary>
+            <p>Issues のステータスを確認するか、修正がリリースされた際にお知らせします。</p>
+          </details>
+          <details class="faq__item">
+            <summary>修正が却下されることはありますか?</summary>
+            <p>はい、あります。</p>
+            <p>具体的には、以下のようなケースです。</p>
+            <ul>
+              <li>他のModとの互換性の問題</li>
+              <li>ゲームの仕様に依存するバグ</li>
+              <li>修正が他の機能に影響を与える場合</li>
+            </ul>
+          </details>
+          <details class="faq__item">
+            <summary>旧バージョンのModのサポートはありますか?</summary>
+            <p>基本的には最新バージョンのサポートに注力していますが、旧バージョンの問題についても対応する場合があります。</p>
+            <p>最新バージョンの修正が優先しているため、旧バージョンの修正は後回しになることがあります。</p>
+            <p>ただし、アーカイブ済みというタグが付けられたModについては、基本は対応しません。</p>
+          </details>
+          <details class="faq__item">
+            <summary>GitHub Issues 以外の報告方法はありますか?</summary>
+            <p>基本的には GitHub Issues を通じての報告をお願いしていますが、報告方法が分からない場合のみ、X（旧Twitter）<a href="https://x.com/ChihaluCoding" target="_blank">@ChihaluCoding</a>での問い合わせも受け付けています。</p>
+          </details>
+
+        </div>
+
       </section>
     </main>
 
     <footer class="footer">
-      <p>&copy; <span id="year"></span> My Minecraft Mods. 無断転載を禁じます。</p>
+      <p>&copy; <span id="year"></span> My Minecraft Mods. </p>
     </footer>
 
     <script src="assets/theme.js"></script>

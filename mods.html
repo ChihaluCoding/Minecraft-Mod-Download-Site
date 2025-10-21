@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My Minecraft Mods | MODカタログ</title>
+    <title>My Minecraft Mods | Mod一覧</title>
     <script>
       (function () {
         try {
@@ -22,31 +22,36 @@
       <div class="hero__video-wrapper" aria-hidden="true">
         <video class="hero__video" autoplay muted loop playsinline></video>
       </div>
-      <nav class="top-nav">
+      <nav class="top-nav" data-nav>
+        <button class="top-nav__toggle" type="button" aria-expanded="false" aria-controls="top-nav-menu" aria-label="メニューを開く" data-nav-toggle>
+          <span class="top-nav__toggle-bar"></span>
+        </button>
         <a class="top-nav__brand" href="index.html">Chihalu Mods</a>
-        <div class="top-nav__links">
-          <a href="index.html">ホーム</a>
-          <a href="mods.html">Mod一覧</a>
-          <a href="updates.html">更新情報</a>
-          <a href="contact.html">不具合の報告</a>
-        </div>
-        <div class="top-nav__controls">
-          <div class="theme-toggle">
-            <span class="theme-toggle__label">テーマを変更</span>
-            <div class="theme-toggle__select">
-              <select data-theme-select title="テーマを選択してください">
-                <option value="light-blue">ライト×シアン</option>
-                <option value="light-pink">ライト×ピンク</option>
-                <option value="dark">ダーク×シアン</option>
-              </select>
+        <div class="top-nav__menu" id="top-nav-menu" data-nav-menu>
+          <div class="top-nav__links">
+            <a href="index.html">ホーム</a>
+            <a href="mods.html">Mod一覧</a>
+            <a href="announcements.html">お知らせ</a>
+            <a href="contact.html">バグ報告</a>
+          </div>
+          <div class="top-nav__controls">
+            <div class="theme-toggle">
+              <span class="theme-toggle__label">現在のテーマ</span>
+              <div class="theme-toggle__select">
+                <select data-theme-select title="テーマを選択してください">
+                  <option value="light-blue">ライト×シアン</option>
+                  <option value="light-pink">ライト×ピンク</option>
+                  <option value="dark">ダーク×シアン</option>
+                </select>
+              </div>
             </div>
           </div>
         </div>
       </nav>
       <div class="hero__content">
-        <p class="hero__subtitle">リリースされたすべての MOD を 1 か所で参照</p>
-        <h1 class="hero__title">MODカタログ</h1>
-        <p class="hero__description">ローダー、バージョン、環境でフィルターすると、必要なビルドがすぐに見つかります。</p>
+        <p class="hero__subtitle">リリースされたすべての MOD</p>
+        <h1 class="hero__title">MOD一覧</h1>
+        <p class="hero__description">フィルターを使用して、Minecraft のバージョン、ローダー、環境を絞り込めます。</p>
         <div class="hero__actions">
         </div>
       </div>
@@ -54,10 +59,6 @@
 
     <main>
       <section id="mod-list" class="section">
-        <div class="section__header">
-          <h2 class="section__title">MODリスト</h2>
-          <p class="section__subtitle">フィルターを使用して、Minecraft のバージョン、ローダー、または環境で絞り込みます。</p>
-        </div>
         <aside class="mod-filters mod-filters--inline" id="mod-filter-panel">
           <h3 class="mod-filters__title">フィルター</h3>
           <form class="mod-filters__form">
@@ -85,7 +86,16 @@
         <div class="mod-layout">
           <div id="mod-grid" class="mod-grid" aria-live="polite"></div>
         </div>
-        <p class="section__note">インストール手順、依存関係、ダウンロード リンクについては、各 MOD ページに記載されています。</p>
+        <nav id="mod-pagination" class="mod-pagination" aria-label="MOD一覧ページ切り替え" hidden>
+          <button type="button" class="mod-pagination__control" data-page-action="prev" aria-label="前のページ">
+            &laquo;
+          </button>
+          <div class="mod-pagination__pages" data-pagination-pages aria-live="polite"></div>
+          <button type="button" class="mod-pagination__control" data-page-action="next" aria-label="次のページ">
+            &raquo;
+          </button>
+        </nav>
+        <p class="section__note">依存関係、ダウンロード リンクについては、各 MOD ページに記載されています。</p>
       </section>
     </main>
 

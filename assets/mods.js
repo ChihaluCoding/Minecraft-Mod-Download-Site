@@ -21,11 +21,28 @@ const modData = [
     requirements: [
       { name: { ja: "Fabric API", en: "Fabric API" }, url: "https://modrinth.com/mod/fabric-api" }
     ],
+    updatedDate: "2025-10-28",
     changelog: {
       ja: "初回リリース。死亡時のインベントリ保持と経験値復旧オプションを追加。",
       en: "Initial release with inventory retention and optional XP recovery toggles."
     },
     downloadUrl: "assets/Mods/itemnoloss/itemsnoloss-1.0.0.jar",
+    versions: [
+      {
+        version: "v1.0.0",
+        downloadUrl: "assets/Mods/itemnoloss/itemsnoloss-1.0.0.jar",
+        releaseDate: "2025-10-20",
+        minecraftVersion: "1.20.4",
+        loader: "Fabric"
+      },
+      {
+        version: "v0.9.0-beta",
+        downloadUrl: "assets/Mods/itemnoloss/itemsnoloss-0.9.0-beta.jar",
+        releaseDate: "2025-08-15",
+        minecraftVersion: "1.20.2",
+        loader: "Fabric"
+      }
+    ],
     license: {
       ja: "二次配布は禁止。サーバー導入時はクレジット表記をお願いします。",
       en: "No redistribution. Credit required when installing on servers."
@@ -53,11 +70,35 @@ const modData = [
     requirements: [
       { name: { ja: "Fabric API", en: "Fabric API" }, url: "https://modrinth.com/mod/fabric-api" }
     ],
+    updatedDate: "2025-01-05",
     changelog: {
       ja: "鍛冶型への対応と採掘速度の調整、ローカライズの更新を実施。",
       en: "Adjusted smithing templates, refined mining speed, and refreshed localisation."
     },
     downloadUrl: "downloads/emerald-tools-plus-v1.4.0.jar",
+    versions: [
+      {
+        version: "v1.4.0",
+        downloadUrl: "downloads/emerald-tools-plus-v1.4.0.jar",
+        releaseDate: "2024-11-12",
+        minecraftVersion: "1.20.1",
+        loader: "Fabric"
+      },
+      {
+        version: "v1.3.2",
+        downloadUrl: "downloads/emerald-tools-plus-v1.3.2.jar",
+        releaseDate: "2024-07-22",
+        minecraftVersion: "1.20",
+        loader: "Fabric"
+      },
+      {
+        version: "v1.2.0",
+        downloadUrl: "downloads/emerald-tools-plus-v1.2.0.jar",
+        releaseDate: "2024-03-30",
+        minecraftVersion: "1.19.4",
+        loader: "Fabric"
+      }
+    ],
     license: {
       ja: "二次配布は禁止。動画で紹介する場合はクレジット表記を推奨します。",
       en: "No redistribution. Credit is appreciated when featured in videos."
@@ -85,11 +126,28 @@ const modData = [
     requirements: [
       { name: { ja: "Forge 45.0+", en: "Forge 45.0+" }, url: "https://files.minecraftforge.net/net/minecraftforge/forge/" }
     ],
+    updatedDate: "2025-03-18",
     changelog: {
       ja: "BGMトラックを4曲追加し、エンダードラゴン戦の音量バランスを調整。",
       en: "Added four ambient tracks and rebalanced the Ender Dragon battle mix."
     },
     downloadUrl: "https://example.com/mob-music-remixer",
+    versions: [
+      {
+        version: "v0.9.2-beta",
+        downloadUrl: "https://example.com/mob-music-remixer",
+        releaseDate: "2025-02-03",
+        minecraftVersion: "1.19.4",
+        loader: "Forge"
+      },
+      {
+        version: "v0.9.1-beta",
+        downloadUrl: "https://example.com/mob-music-remixer/v0.9.1",
+        releaseDate: "2024-12-18",
+        minecraftVersion: "1.19.4",
+        loader: "Forge"
+      }
+    ],
     license: {
       ja: "個人利用・配信利用は自由。改変配布は事前連絡をお願いします。",
       en: "Personal and streaming use allowed. Contact me before redistributing modified builds."
@@ -115,11 +173,35 @@ const modData = [
     environment: "client_server",
     image: "assets/images/builders-companion.gif",
     requirements: [],
+    updatedDate: "2025-06-02",
     changelog: {
       ja: "UIスキンの刷新、ホットキーの安定化、マルチプレイ同期の改善を実施。",
       en: "Revamped UI skin, stabilised hotkeys, and improved multiplayer synchronisation."
     },
     downloadUrl: "downloads/builders-companion-v2.1.0.zip",
+    versions: [
+      {
+        version: "v2.1.0",
+        downloadUrl: "downloads/builders-companion-v2.1.0.zip",
+        releaseDate: "2025-05-18",
+        minecraftVersion: "1.20.4",
+        loader: "NeoForge"
+      },
+      {
+        version: "v2.0.1",
+        downloadUrl: "downloads/builders-companion-v2.0.1.zip",
+        releaseDate: "2025-03-02",
+        minecraftVersion: "1.20.2",
+        loader: "NeoForge"
+      },
+      {
+        version: "v1.9.0",
+        downloadUrl: "downloads/builders-companion-v1.9.0.zip",
+        releaseDate: "2024-09-10",
+        minecraftVersion: "1.20.1",
+        loader: "NeoForge"
+      }
+    ],
     license: {
       ja: "改変は自由ですが、配布時は元の配布ページへのリンクを記載してください。",
       en: "Modifications are allowed; please link back to the original distribution page when sharing."

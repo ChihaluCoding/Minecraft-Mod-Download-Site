@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Chihalu ModsWorks - Mod詳細</title>
+    <title>Chihalu Mods - お知らせ</title>
     <script>
       (function () {
         try {
@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="assets/style.css" />
   </head>
   <body>
-    <header class="hero hero--detail">
+    <header class="hero hero--updates">
       <div class="hero__video-wrapper" aria-hidden="true">
         <video class="hero__video" autoplay muted loop playsinline></video>
       </div>
@@ -49,25 +49,38 @@
         </div>
       </nav>
       <div class="hero__content">
-        <p class="hero__subtitle" id="mod-detail-loader">MODデータをロード中...</p>
-        <h1 class="hero__title" id="mod-detail-title">MODの詳細をロード中です</h1>
-        <p class="hero__description" id="mod-detail-summary">MOD情報を取得するまでお待ちください。</p>
+        <p class="hero__subtitle">最新のお知らせの概要</p>
+        <h1 class="hero__title">お知らせ</h1>
+        <p class="hero__description">リリース予定や修正内容など、最新トピックをまとめてご案内します。</p>
+        <div class="hero__actions">
+          
+        </div>
       </div>
     </header>
 
     <main>
-      <section class="section">
-        <div id="mod-detail" class="mod-detail" aria-live="polite"></div>
+      <section class="section" id="announcements-list-section">
+        <div class="section__header">
+        </div>
+        <div id="announcements-list" class="updates updates--list" aria-live="polite"></div>
+        <nav id="announcements-pagination" class="mod-pagination" aria-label="お知らせページ切り替え" hidden>
+          <button type="button" class="mod-pagination__control" data-announcement-page-action="prev" aria-label="前のお知らせページ">
+            &laquo;
+          </button>
+          <div class="mod-pagination__pages" data-pagination-pages aria-live="polite"></div>
+          <button type="button" class="mod-pagination__control" data-announcement-page-action="next" aria-label="次のお知らせページ">
+            &raquo;
+          </button>
+        </nav>
       </section>
     </main>
 
     <footer class="footer">
-      <p>&copy; <span id="year"></span> My Minecraft Mods.</p>
+      <p>&copy; <span id="year"></span> My Minecraft Mods. 無断転載を禁じます。</p>
     </footer>
 
     <script src="assets/theme.js"></script>
-    <script src="assets/mods.js"></script>
-    <script src="assets/detail.js"></script>
+    <script src="assets/announcements.js"></script>
     <script src="assets/main.js"></script>
   </body>
 </html>

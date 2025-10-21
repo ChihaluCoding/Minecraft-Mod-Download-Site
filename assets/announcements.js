@@ -1,4 +1,4 @@
-const updatesData = [
+const announcementsData = [
   {
     slug: "item-no-loss-v1-0-0",
     date: "2025-10-20",
@@ -53,4 +53,4 @@ const updatesData = [
   }
 ];
 
-window.updatesData = updatesData;
+window.announcementsData = announcementsData;
