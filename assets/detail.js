@@ -147,7 +147,9 @@
     if (loaderEl) {
       const loader = mod.loader || "";
       const environment = mod.environment ? environmentLabel(mod.environment) : environmentLabel('unknown');
-      loaderEl.textContent = loader ? `${loader} / ${environment}` : environment;
+      const license = mod.license && (mod.license.name || mod.license.spdx) ? (mod.license.name || mod.license.spdx) : "";
+      const parts = [loader || environment, license].filter(Boolean);
+      loaderEl.textContent = parts.join(" / ") || environment;
     }
 
     if (downloadEl) {

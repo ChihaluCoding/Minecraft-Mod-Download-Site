@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="ja">
   <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="assets/favicon.ico">
+    <meta name="theme-color" content="#0a84ff">
+    <meta property="og:title" content="Chihalu ModsWorks - Mod詳細">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="./mod.html">
+    <meta property="og:image" content="assets/images/placeholder.gif">
+    <meta name="twitter:card" content="summary_large_image">
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Chihalu ModsWorks - Mod詳細</title>
@@ -50,8 +59,13 @@
       </nav>
       <div class="hero__content">
         <p class="hero__subtitle" id="mod-detail-loader">MODデータをロード中...</p>
+        <p class="hero__subtitle" id="mod-detail-loader-extra" hidden>ローダー: <span data-detail-loader></span> / ライセンス: <span data-detail-license></span></p>
         <h1 class="hero__title" id="mod-detail-title">MODの詳細をロード中です</h1>
         <p class="hero__description" id="mod-detail-summary">MOD情報を取得するまでお待ちください。</p>
+        <div class="hero__actions">
+          <a class="button hero__cta hero__cta--ghost" href="mods.html">カタログに戻る</a>
+          <button id="mod-detail-download" class="button button--primary hero__cta" type="button">ダウンロード</button>
+        </div>
       </div>
     </header>
 
