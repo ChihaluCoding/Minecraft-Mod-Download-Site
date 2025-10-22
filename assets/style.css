@@ -927,9 +927,7 @@ a:hover {
   gap: 16px;
 }
 
-.contact-card--bug {
-  border-top: 4px solid var(--accent);
-}
+
 
 .contact-card--request {
   border-top: 4px solid var(--button-secondary-border);
@@ -1616,3 +1614,4 @@ body.is-modal-open {
 #faq {
   margin-top: 20px; /* 上にマージンを追加 */
 }
+
