@@ -122,17 +122,7 @@
     const titleEl = document.getElementById("mod-detail-title");
     const summaryEl = document.getElementById("mod-detail-summary");
     const loaderEl = document.getElementById("mod-detail-loader");
-    let downloadEl = document.getElementById("mod-detail-download");
-    if (!downloadEl) {
-      const heroActions = document.querySelector(".hero__actions");
-      if (heroActions) {
-        downloadEl = document.createElement("button");
-        downloadEl.type = "button";
-        downloadEl.id = "mod-detail-download";
-        downloadEl.className = "button button--primary";
-        heroActions.appendChild(downloadEl);
-      }
-    }
+    const downloadEl = document.getElementById("mod-detail-download");
 
     const displayName = localizeText(mod.name) || "MOD\u8a73\u7d30";
 
