@@ -20,6 +20,7 @@
     "detail.license": "ライセンス",
     "detail.tags": "タグ",
     "detail.downloads": "ダウンロード",
+    "detail.source": "ソース",
     "detail.download.previous": "過去バージョン",
     "detail.download.title": "ダウンロード設定",
     "detail.download.chooseVersion": "ゲームバージョンを選択",
@@ -356,7 +357,8 @@
       mod.loader ? { label: "meta.environment", value: `${mod.loader}` } : null,
       mod.environment ? { label: "environment", value: mod.environment } : null,
       mod.releaseDate ? { label: "meta.releaseDate", value: formatDate(mod.releaseDate) } : null,
-      mod.updatedDate ? { label: "meta.updatedDate", value: formatDate(mod.updatedDate) } : null
+      mod.updatedDate ? { label: "meta.updatedDate", value: formatDate(mod.updatedDate) } : null,
+      mod.sourceUrl ? { label: "detail.source", value: mod.sourceUrl, type: "link" } : null
     ].filter(Boolean);
 
     if (!entries.length) {
@@ -371,28 +373,29 @@
       row.className = "mod-detail__meta-row";
 
       const label = document.createElement("span");
-      if (entry.label === "environment") {
-        label.className = "mod-detail__meta-label";
-        label.textContent = t("meta.environment");
+      label.className = "mod-detail__meta-label";
+      label.textContent = entry.label === "environment" ? t("meta.environment") : t(entry.label);
+      row.appendChild(label);
 
-        const value = document.createElement("span");
+      let value;
+      if (entry.label === "environment") {
+        value = document.createElement("span");
         value.className = "mod-detail__meta-value";
         value.textContent = environmentLabel(entry.value);
-
-        row.appendChild(label);
-        row.appendChild(value);
+      } else if (entry.type === "link") {
+        value = document.createElement("a");
+        value.className = "mod-detail__meta-value";
+        value.href = entry.value;
+        value.target = "_blank";
+        value.rel = "noopener noreferrer";
+        value.textContent = entry.value;
       } else {
-        label.className = "mod-detail__meta-label";
-        label.textContent = t(entry.label);
-
-        const value = document.createElement("span");
+        value = document.createElement("span");
         value.className = "mod-detail__meta-value";
         value.textContent = entry.value;
-
-        row.appendChild(label);
-        row.appendChild(value);
       }
 
+      row.appendChild(value);
       meta.appendChild(row);
     });
 

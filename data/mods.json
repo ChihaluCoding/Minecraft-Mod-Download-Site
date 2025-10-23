@@ -27,6 +27,7 @@
       "en": "Initial release with inventory retention and optional XP recovery toggles."
     },
     "downloadUrl": "assets/downloads/hyperfurnace/hyperfurnace-1.0.1.jar",
+    "sourceUrl": "https://github.com/ChihaluCoding/HyperFurnace",
     "versions": [
       {
         "version": "v1.0.0",
