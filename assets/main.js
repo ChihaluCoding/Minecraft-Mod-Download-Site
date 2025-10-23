@@ -20,7 +20,6 @@
     "meta.version": "バージョン",
     "meta.environment": "環境",
     "meta.minecraft": "マインクラフトのバージョン",
-    "meta.fileSize": "ファイルサイズ",
     "meta.releaseDate": "公開日",
     "filters.all": "全て",
     "environment.client": "クライアント",
@@ -512,10 +511,6 @@
 
     if (mod.minecraftVersion) {
       entries.push(`${t("meta.minecraft")}: ${mod.minecraftVersion}`);
-    }
-
-    if (mod.fileSize) {
-      entries.push(`${t("meta.fileSize")}: ${mod.fileSize}`);
     }
 
     if (mod.releaseDate) {
