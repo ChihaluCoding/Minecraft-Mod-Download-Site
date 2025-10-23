@@ -1187,7 +1187,7 @@ a:hover {
 .mod-detail__content {
   width: 100%;
   display: grid;
-  grid-template-columns: minmax(0, 360px) minmax(0, 1fr);
+  grid-template-columns: 1fr;
   gap: 32px;
   background: var(--surface-strong);
   border: 1px solid var(--border);
@@ -1206,6 +1206,8 @@ a:hover {
 
 .mod-detail__media img {
   display: block;
+  width: 100%;
+  height: auto;
   object-fit: cover;
 }
 
