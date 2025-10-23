@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mod データエディタ</title>
+    <link rel="icon" href="assets/favicon.ico" />
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f7fbff;
+        --bg-alt: #ecf4ff;
+        --card: rgba(255, 255, 255, 0.94);
+        --border: rgba(28, 110, 190, 0.16);
+        --shadow: 0 10px 30px rgba(32, 95, 158, 0.1);
+        --accent: #1b8cff;
+        --accent-strong: #0f5eb8;
+        --accent-soft: rgba(27, 140, 255, 0.12);
+        --text: #0f172a;
+        --text-muted: #4f6f81;
+        --surface: rgba(255, 255, 255, 0.75);
+        --radius-lg: 20px;
+        --radius-md: 14px;
+        --radius-sm: 10px;
+        font-family: "Segoe UI", "Yu Gothic", "Hiragino Kaku Gothic ProN", sans-serif;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: linear-gradient(160deg, var(--bg), var(--bg-alt));
+        color: var(--text);
+      }
+
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 3;
+        backdrop-filter: blur(20px);
+        background: rgba(247, 251, 255, 0.85);
+        border-bottom: 1px solid var(--border);
+        padding: 18px 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+      }
+
+      header h1 {
+        margin: 0;
+        font-size: 1.4rem;
+      }
+
+      header p {
+        margin: 0;
+        color: var(--text-muted);
+        font-size: 0.9rem;
+      }
+
+      main {
+        padding: 32px clamp(16px, 4vw, 48px) 80px;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 360px;
+        gap: 28px;
+        align-items: start;
+      }
+
+      @media (max-width: 1100px) {
+        main {
+          grid-template-columns: 1fr;
+        }
+
+        .sidebar {
+          position: sticky;
+          top: 84px;
+        }
+      }
+
+      .panel {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow);
+        padding: clamp(18px, 2.5vw, 28px);
+      }
+
+      .controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-bottom: 20px;
+      }
+
+      .controls > * {
+        flex: none;
+      }
+
+      .panel h2 {
+        margin: 0 0 16px 0;
+        font-size: 1.1rem;
+      }
+
+      .button {
+        border: 1px solid transparent;
+        border-radius: var(--radius-sm);
+        padding: 10px 16px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 0.1s ease, box-shadow 0.2s ease;
+      }
+
+      .button.primary {
+        background: linear-gradient(135deg, var(--accent), #4aa9ff);
+        color: white;
+        box-shadow: 0 8px 20px rgba(27, 140, 255, 0.26);
+      }
+
+      .button.secondary {
+        background: rgba(255, 255, 255, 0.72);
+        border-color: var(--border);
+        color: var(--accent-strong);
+      }
+
+      .button.ghost {
+        background: transparent;
+        border-color: rgba(27, 140, 255, 0.24);
+        color: var(--accent-strong);
+      }
+
+      .button.danger {
+        background: rgba(234, 76, 97, 0.12);
+        border-color: rgba(234, 76, 97, 0.3);
+        color: #c63b4d;
+      }
+
+      .button:disabled {
+        opacity: 0.6;
+        pointer-events: none;
+      }
+
+      .button:not(:disabled):active {
+        transform: translateY(1px);
+      }
+
+      .button.inline {
+        padding: 6px 12px;
+        font-size: 0.85rem;
+      }
+
+      input[type="file"] {
+        font-size: 0.9rem;
+      }
+
+      .status {
+        margin-top: 10px;
+        font-size: 0.9rem;
+        color: var(--text-muted);
+        min-height: 1.2em;
+      }
+
+      .status[data-type="success"] {
+        color: #0c8a44;
+      }
+
+      .status[data-type="error"] {
+        color: #c63b4d;
+      }
+
+      .mod-card {
+        border: 1px solid var(--border);
+        border-radius: var(--radius-lg);
+        padding: 22px;
+        background: rgba(255, 255, 255, 0.9);
+        box-shadow: 0 12px 40px rgba(25, 80, 145, 0.12);
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+      }
+
+      .mod-card__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .mod-card__title {
+        margin: 0;
+        font-size: 1.2rem;
+      }
+
+      .field-grid {
+        display: grid;
+        gap: 14px;
+      }
+
+      @media (min-width: 720px) {
+        .field-grid.two {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .field > span {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+      }
+
+      .field input,
+      .field textarea,
+      .field select {
+        border-radius: var(--radius-sm);
+        border: 1px solid var(--border);
+        background: var(--surface);
+        padding: 10px 12px;
+        font-size: 0.95rem;
+        line-height: 1.4;
+        color: inherit;
+      }
+
+      .field textarea {
+        min-height: 84px;
+        resize: vertical;
+      }
+
+      .inline-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .inline-item {
+        display: grid;
+        gap: 8px;
+        align-items: start;
+        padding: 12px;
+        border-radius: var(--radius-sm);
+        border: 1px dashed rgba(27, 140, 255, 0.25);
+        background: rgba(27, 140, 255, 0.04);
+      }
+
+      @media (min-width: 720px) {
+        .inline-item.columns-2 {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      .inline-item .actions {
+        display: flex;
+        justify-content: flex-end;
+      }
+
+      .section-heading {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 8px;
+      }
+
+      .section-heading h3 {
+        margin: 0;
+        font-size: 1rem;
+      }
+
+      .empty-state {
+        padding: 40px;
+        text-align: center;
+        color: var(--text-muted);
+        border: 1px dashed var(--border);
+        border-radius: var(--radius-lg);
+        background: rgba(255, 255, 255, 0.7);
+      }
+
+      .preview {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .preview textarea {
+        width: 100%;
+        min-height: 180px;
+        font-family: "Fira Code", "Consolas", monospace;
+        font-size: 0.85rem;
+        border-radius: var(--radius-sm);
+        border: 1px solid var(--border);
+        background: rgba(0, 0, 0, 0.04);
+        padding: 12px;
+        resize: vertical;
+      }
+
+      .preview textarea:focus {
+        outline: 2px solid rgba(27, 140, 255, 0.45);
+        outline-offset: 2px;
+      }
+
+      .preview-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(27, 140, 255, 0.12);
+        border: 1px solid rgba(27, 140, 255, 0.2);
+        border-radius: 999px;
+        padding: 4px 12px;
+        font-size: 0.8rem;
+        color: var(--accent-strong);
+      }
+
+      .hint {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div>
+        <h1>Mod データエディタ</h1>
+        <p>フォームから入力して JSON / mods.js を生成します</p>
+      </div>
+      <span class="badge" id="modCount">0 件</span>
+    </header>
+    <main>
+      <section class="panel">
+        <div class="controls">
+          <button class="button primary" id="addMod">Mod を追加</button>
+          <label class="button secondary" for="importFile">JSON を読み込む</label>
+          <input id="importFile" type="file" accept="application/json" hidden />
+          <button class="button ghost" id="loadCurrent">data/mods.json を読み込む</button>
+        </div>
+        <div class="status" id="status"></div>
+        <div id="modList"></div>
+      </section>
+      <aside class="panel sidebar">
+        <h2>書き出し</h2>
+        <div class="preview">
+          <div>
+            <div class="section-heading">
+              <h3>JSON</h3>
+              <span class="hint">data/mods.json 用</span>
+            </div>
+            <textarea id="jsonPreview" readonly></textarea>
+            <div class="preview-actions">
+              <button class="button secondary inline" id="downloadJson">JSON をダウンロード</button>
+              <button class="button ghost inline" id="copyJson">コピー</button>
+            </div>
+          </div>
+          <div>
+            <div class="section-heading">
+              <h3>mods.js</h3>
+              <span class="hint">const modData = ... 形式</span>
+            </div>
+            <textarea id="jsPreview" readonly></textarea>
+            <div class="preview-actions">
+              <button class="button secondary inline" id="downloadJs">mods.js をダウンロード</button>
+              <button class="button ghost inline" id="copyJs">コピー</button>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </main>
+    <script type="module" src="assets/mod-editor.js"></script>
+  </body>
+</html>
