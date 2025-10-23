@@ -31,31 +31,35 @@
     "detail.notFound.link": "カタログに戻る",
     "environment.unknown": "未知",
     "meta.environment": "環境",
+    "meta.loader": "ローダー",
     "meta.minecraft": "マインクラフトのバージョン",
     "meta.version": "バージョン",
     "meta.releaseDate": "リリース日",
     "meta.updatedDate": "更新日",
+    "meta.fileSize": "ファイルサイズ",
     "detail.download.releaseDate": "リリース日",
     "detail.download.latest": "最新",
     "mods.card.untitled": "無題のMOD"
   };
+
   const TAG_LABELS = {
-  "survival": "サバイバル",
-  "quality_of_life": "生活の質",
-  "gameplay": "ゲームプレイ",
-  "equipment": "装備",
-  "lightweight": "軽量",
-  "audio": "オーディオ",
-  "atmosphere": "雰囲気",
-  "building": "建物",
-  "utility": "ユーティリティ"
-};
+    survival: "サバイバル",
+    quality_of_life: "生活の質",
+    gameplay: "ゲームプレイ",
+    equipment: "装備",
+    lightweight: "軽量",
+    audio: "オーディオ",
+    atmosphere: "雰囲気",
+    building: "建物",
+    utility: "ユーティリティ"
+  };
+
   const ENVIRONMENT_LABELS = {
-  "client": "クライアント",
-  "server": "サーバ",
-  "client_server": "クライアントとサーバー",
-  "unknown": "未知"
-};
+    client: "クライアント",
+    server: "サーバ",
+    client_server: "クライアントとサーバー",
+    unknown: "未知"
+  };
 
   function t(key) {
     return TEXT[key] ?? key;
@@ -67,6 +71,20 @@
 
   function environmentLabel(key) {
     return ENVIRONMENT_LABELS[key] ?? key;
+  }
+
+  function extractLicenseText(value) {
+    if (!value) return "";
+    if (typeof value === "string") return value;
+    if (typeof value === "object") {
+      if (value.ja || value.en) {
+        const localized = localizeText(value);
+        if (localized) return localized;
+      }
+      if (value.name) return String(value.name);
+      if (value.spdx) return String(value.spdx);
+    }
+    return localizeText(value);
   }
 
   function safeDate(value) {
@@ -136,11 +154,16 @@
     }
 
     if (loaderEl) {
-      const loader = mod.loader || "";
-      const environment = mod.environment ? environmentLabel(mod.environment) : environmentLabel('unknown');
-      const license = mod.license && (mod.license.name || mod.license.spdx) ? (mod.license.name || mod.license.spdx) : "";
-      const parts = [loader || environment, license].filter(Boolean);
-      loaderEl.textContent = parts.join(" / ") || environment;
+      const loader = mod.loader ? String(mod.loader) : "";
+      const environmentText = mod.environment
+        ? environmentLabel(mod.environment)
+        : environmentLabel("unknown");
+      const license = extractLicenseText(mod.license);
+      const parts = [];
+      if (loader) parts.push(loader);
+      if (environmentText) parts.push(environmentText);
+      if (license) parts.push(license);
+      loaderEl.textContent = parts.join(" / ") || environmentText;
     }
 
     if (downloadEl) {
@@ -161,7 +184,7 @@
         downloadEl.setAttribute("aria-disabled", "true");
         downloadEl.removeAttribute("aria-label");
         downloadEl.removeAttribute("download");
-        downloadEl.removeAttribute("href");
+        downloadEl.href = "#";
         downloadEl.onclick = null;
       }
     }
@@ -171,7 +194,7 @@
       backButton.textContent = t("detail.hero.back");
     }
 
-    document.title = `Chihalu Mod - ${displayName}`;
+    document.title = `Chihalu Mods - ${displayName}`;
 
   }
 
@@ -290,6 +313,13 @@
       heading.textContent = t("detail.license");
       section.appendChild(heading);
 
+      const licenseText = extractLicenseText(mod.license);
+      if (licenseText) {
+        const textParagraph = document.createElement("p");
+        textParagraph.textContent = licenseText;
+        section.appendChild(textParagraph);
+      }
+
       const link = document.createElement("a");
       link.href = "https://chihalucoding.github.io/Minecraft-Mod-License/";
       link.target = "_blank";
@@ -352,13 +382,24 @@
 
   function buildMeta(mod) {
     const entries = [
-      mod.minecraftVersion ? { label: "meta.minecraft", value: mod.minecraftVersion } : null,
+      mod.minecraftVersion
+        ? { label: "meta.minecraft", value: mod.minecraftVersion }
+        : null,
       mod.version ? { label: "meta.version", value: mod.version } : null,
-      mod.loader ? { label: "meta.environment", value: `${mod.loader}` } : null,
-      mod.environment ? { label: "environment", value: mod.environment } : null,
-      mod.releaseDate ? { label: "meta.releaseDate", value: formatDate(mod.releaseDate) } : null,
-      mod.updatedDate ? { label: "meta.updatedDate", value: formatDate(mod.updatedDate) } : null,
-      mod.sourceUrl ? { label: "detail.source", value: mod.sourceUrl, type: "link" } : null
+      mod.loader ? { label: "meta.loader", value: String(mod.loader) } : null,
+      mod.environment
+        ? { label: "meta.environment", value: environmentLabel(mod.environment) }
+        : null,
+      mod.releaseDate
+        ? { label: "meta.releaseDate", value: formatDate(mod.releaseDate) }
+        : null,
+      mod.updatedDate
+        ? { label: "meta.updatedDate", value: formatDate(mod.updatedDate) }
+        : null,
+      mod.fileSize ? { label: "meta.fileSize", value: mod.fileSize } : null,
+      mod.sourceUrl
+        ? { label: "detail.source", value: mod.sourceUrl, type: "link" }
+        : null
     ].filter(Boolean);
 
     if (!entries.length) {
@@ -374,15 +415,11 @@
 
       const label = document.createElement("span");
       label.className = "mod-detail__meta-label";
-      label.textContent = entry.label === "environment" ? t("meta.environment") : t(entry.label);
+      label.textContent = t(entry.label);
       row.appendChild(label);
 
       let value;
-      if (entry.label === "environment") {
-        value = document.createElement("span");
-        value.className = "mod-detail__meta-value";
-        value.textContent = environmentLabel(entry.value);
-      } else if (entry.type === "link") {
+      if (entry.type === "link") {
         value = document.createElement("a");
         value.className = "mod-detail__meta-value";
         value.href = entry.value;
@@ -407,7 +444,13 @@
       container.textContent = "";
       const message = document.createElement("div");
       message.className = "mod-detail__empty";
-      message.innerHTML = `<p>${t("detail.notFound.summary")} <a href="mods.html">${t("detail.notFound.link")}</a></p>`;
+      const paragraph = document.createElement("p");
+      paragraph.textContent = t("detail.notFound.summary");
+      const link = document.createElement("a");
+      link.href = "mods.html";
+      link.textContent = t("detail.notFound.link");
+      paragraph.append(" ", link);
+      message.appendChild(paragraph);
       container.appendChild(message);
     }
 
@@ -423,7 +466,7 @@
       downloadEl.setAttribute("aria-disabled", "true");
       downloadEl.removeAttribute("aria-label");
       downloadEl.removeAttribute("download");
-      downloadEl.removeAttribute("href");
+      downloadEl.href = "#";
       downloadEl.onclick = null;
     }
 
@@ -432,7 +475,7 @@
       backButton.textContent = t("detail.hero.back");
     }
 
-    document.title = "Mod\u304c\u898b\u3064\u304b\u308a\u307e\u305b\u3093 | My Minecraft Mods";
+    document.title = `Chihalu Mods - ${t("detail.notFound.title")}`;
 
   }
 
@@ -766,6 +809,28 @@
     item.appendChild(info);
 
     const loaderValue = entry.loader ?? mod.loader ?? "";
+    const fileSize = entry.fileSize ?? mod.fileSize ?? "";
+
+    const metaParts = [];
+    if (entry.releaseDate) {
+      metaParts.push(`${t("detail.download.releaseDate")}: ${formatDate(entry.releaseDate)}`);
+    }
+    if (entry.minecraftVersion) {
+      metaParts.push(`${t("meta.minecraft")}: ${entry.minecraftVersion}`);
+    }
+    if (loaderValue) {
+      metaParts.push(`${t("meta.loader")}: ${loaderValue}`);
+    }
+    if (fileSize) {
+      metaParts.push(`${t("meta.fileSize")}: ${fileSize}`);
+    }
+
+    if (metaParts.length) {
+      const meta = document.createElement("span");
+      meta.className = "mod-detail__download-meta";
+      meta.textContent = metaParts.join(" / ");
+      info.appendChild(meta);
+    }
 
     if (entry.downloadUrl) {
       const link = document.createElement("a");
@@ -795,7 +860,8 @@
           releaseDate: entry.releaseDate ?? mod.releaseDate,
           downloadUrl: entry.downloadUrl ?? mod.downloadUrl,
           minecraftVersion: entry.minecraftVersion ?? mod.minecraftVersion,
-          loader: entry.loader ?? mod.loader
+          loader: entry.loader ?? mod.loader,
+          fileSize: entry.fileSize ?? mod.fileSize
         }))
         .sort((a, b) => safeDate(b.releaseDate) - safeDate(a.releaseDate));
     }
@@ -807,7 +873,8 @@
           releaseDate: mod.releaseDate,
           downloadUrl: mod.downloadUrl,
           minecraftVersion: mod.minecraftVersion,
-          loader: mod.loader
+          loader: mod.loader,
+          fileSize: mod.fileSize
         }
       ];
     }
