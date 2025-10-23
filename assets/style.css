@@ -456,9 +456,9 @@ a:hover {
 }
 
 .hero__cta--ghost {
-  background: transparent;
-  color: var(--text);
-  border: 1px solid var(--surface-outline);
+  background: #1b8cff;
+  color: #ffffff;
+  border: 1px solid #1b8cff;
   box-shadow: none;
 }
 
