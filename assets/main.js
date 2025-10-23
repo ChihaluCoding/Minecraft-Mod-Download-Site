@@ -3,7 +3,7 @@
   const filterState = {
     minecraftVersion: "",
     loader: "",
-    environment: ""
+    environment: "",
   };
   const MODS_PER_PAGE = 21;
   let currentModPage = 1;
@@ -11,39 +11,41 @@
   let allMods = [];
 
   const TEXT = {
-    "mods.empty": "\u5229\u7528\u53ef\u80fd\u306aMOD\u306f\u3042\u308a\u307e\u305b\u3093\u3002",
-    "mods.emptyFiltered": "\u9078\u629e\u3057\u305f\u30d5\u30a3\u30eb\u30bf\u30fc\u306b\u4e00\u81f4\u3059\u308b MOD \u306f\u3042\u308a\u307e\u305b\u3093\u3002",
-    "mods.card.untitled": "\u7121\u984c\u306eMOD",
-    "mods.card.view": "\u8a73\u7d30\u3092\u898b\u308b",
-    "mods.description.hide": "\u8aac\u660e\u3092\u96a0\u3059",
-    "mods.description.show": "\u8aac\u660e\u3092\u8868\u793a",
-    "meta.version": "\u30d0\u30fc\u30b8\u30e7\u30f3",
-    "meta.environment": "\u74b0\u5883",
-    "meta.minecraft": "\u30de\u30a4\u30f3\u30af\u30e9\u30d5\u30c8\u306e\u30d0\u30fc\u30b8\u30e7\u30f3",
-    "meta.fileSize": "\u30d5\u30a1\u30a4\u30eb\u30b5\u30a4\u30ba",
-    "meta.releaseDate": "\u767a\u58f2\u65e5",
-    "filters.all": "\u5168\u3066",
-    "environment.client": "\u30af\u30e9\u30a4\u30a2\u30f3\u30c8",
-    "environment.server": "\u30b5\u30fc\u30d0",
-    "environment.client_server": "\u30af\u30e9\u30a4\u30a2\u30f3\u30c8\u3068\u30b5\u30fc\u30d0\u30fc",
-    "environment.unknown": "\u672a\u77e5"
+    "mods.empty": "利用可能なMODはありません。",
+    "mods.emptyFiltered": "選択したフィルターに一致する MOD はありません。",
+    "mods.card.untitled": "無題のMOD",
+    "mods.card.view": "詳細を見る",
+    "mods.description.hide": "説明を隠す",
+    "mods.description.show": "説明を表示",
+    "meta.version": "バージョン",
+    "meta.environment": "環境",
+    "meta.minecraft": "マインクラフトのバージョン",
+    "meta.fileSize": "ファイルサイズ",
+    "meta.releaseDate": "公開日",
+    "filters.all": "全て",
+    "environment.client": "クライアント",
+    "environment.server": "サーバ",
+    "environment.client_server": "クライアントとサーバー",
+    "environment.unknown": "未知",
   };
+
   const TAG_LABELS = {
-    "survival": "\u30b5\u30d0\u30a4\u30d0\u30eb",
-    "quality_of_life": "\u751f\u6d3b\u306e\u8cea",
-    "gameplay": "\u30b2\u30fc\u30e0\u30d7\u30ec\u30a4",
-    "equipment": "\u88c5\u7f6e",
-    "lightweight": "\u8efd\u91cf",
-    "audio": "\u30aa\u30fc\u30c7\u30a3\u30aa",
-    "atmosphere": "\u96f0\u56f2\u6c17",
-    "building": "\u5efa\u7269",
-    "utility": "\u30e6\u30fc\u30c6\u30a3\u30ea\u30c6\u30a3"
+    survival: "サバイバル",
+    quality_of_life: "生活の質",
+    gameplay: "ゲームプレイ",
+    equipment: "装置",
+    lightweight: "軽量",
+    audio: "オーディオ",
+    atmosphere: "雰囲気",
+    building: "建物",
+    utility: "ユーティリティ",
   };
+
   const ENVIRONMENT_LABELS = {
-    "client": "\u30af\u30e9\u30a4\u30a2\u30f3\u30c8",
-    "server": "\u30b5\u30fc\u30d0",
-    "client_server": "\u30af\u30e9\u30a4\u30a2\u30f3\u30c8\u3068\u30b5\u30fc\u30d0\u30fc",
-    "unknown": "\u672a\u77e5"
+    client: "クライアント",
+    server: "サーバ",
+    client_server: "クライアントとサーバー",
+    unknown: "未知",
   };
 
   function t(key) {
@@ -72,14 +74,21 @@
 
   function formatDate(value) {
     if (!value) return "";
-    const match = /^([0-9]{4})-([0-9]{2})-([0-9]{2})$/.exec(String(value).trim());
+    const match = /^([0-9]{4})-([0-9]{2})-([0-9]{2})$/.exec(
+      String(value).trim()
+    );
     if (match) {
       const [, y, m, d] = match;
-      return `${parseInt(y, 10)}\u5e74${parseInt(m, 10)}\u6708${parseInt(d, 10)}\u65e5`;
+      return `${parseInt(y, 10)}\u5e74${parseInt(m, 10)}\u6708${parseInt(
+        d,
+        10
+      )}\u65e5`;
     }
     const date = new Date(value);
     if (Number.isNaN(date.getTime())) return String(value);
-    return `${date.getFullYear()}\u5e74${date.getMonth() + 1}\u6708${date.getDate()}\u65e5`;
+    return `${date.getFullYear()}\u5e74${
+      date.getMonth() + 1
+    }\u6708${date.getDate()}\u65e5`;
   }
 
   document.addEventListener("DOMContentLoaded", () => {
@@ -87,8 +96,7 @@
     syncThemeSelectors();
     initializeMobileNav();
     initializeModListing();
-
-      });
+  });
 
   function injectCurrentYear() {
     const yearEl = document.getElementById("year");
@@ -101,7 +109,11 @@
     const select = document.querySelector("[data-theme-select]");
     if (!select) return;
 
-    const currentTheme = document.documentElement.dataset.theme || localStorage.getItem("site-theme") || select.value || "light-blue";
+    const currentTheme =
+      document.documentElement.dataset.theme ||
+      localStorage.getItem("site-theme") ||
+      select.value ||
+      "light-blue";
     select.value = currentTheme;
 
     if (!select.dataset.themeBound) {
@@ -132,7 +144,10 @@
       const willOpen = !nav.classList.contains("top-nav--open");
       nav.classList.toggle("top-nav--open", willOpen);
       toggle.setAttribute("aria-expanded", willOpen ? "true" : "false");
-      toggle.setAttribute("aria-label", willOpen ? "メニューを閉じる" : "メニューを開く");
+      toggle.setAttribute(
+        "aria-label",
+        willOpen ? "メニューを閉じる" : "メニューを開く"
+      );
     });
 
     menu.querySelectorAll("a").forEach((link) => {
@@ -194,13 +209,14 @@
         renderModCards();
       });
     }
-
   }
 
   function injectFilterOptions(selectEl, key, currentValue) {
     if (!selectEl) return;
 
-    selectEl.querySelectorAll("option[data-generated]").forEach((option) => option.remove());
+    selectEl
+      .querySelectorAll("option[data-generated]")
+      .forEach((option) => option.remove());
 
     const values = collectUniqueValues(allMods, key);
     values.forEach((value) => {
@@ -236,10 +252,14 @@
 
   function sortFilterValues(key, values) {
     if (key === "minecraftVersion") {
-      return values.sort((a, b) => b.localeCompare(a, undefined, { numeric: true, sensitivity: "base" }));
+      return values.sort((a, b) =>
+        b.localeCompare(a, undefined, { numeric: true, sensitivity: "base" })
+      );
     }
 
-    return values.sort((a, b) => a.localeCompare(b, "ja", { numeric: true, sensitivity: "base" }));
+    return values.sort((a, b) =>
+      a.localeCompare(b, "ja", { numeric: true, sensitivity: "base" })
+    );
   }
 
   function renderModCards(mods = allMods) {
@@ -257,7 +277,9 @@
       return;
     }
 
-    const filtered = applyFilters(mods).sort((a, b) => safeDate(b.releaseDate) - safeDate(a.releaseDate));
+    const filtered = applyFilters(mods).sort(
+      (a, b) => safeDate(b.releaseDate) - safeDate(a.releaseDate)
+    );
 
     if (!filtered.length) {
       grid.appendChild(createEmptyNotice(t("mods.emptyFiltered")));
@@ -354,7 +376,6 @@
     }
   }
 
-
   function createEmptyNotice(message) {
     const empty = document.createElement("p");
     empty.className = "mod-grid__empty";
@@ -370,7 +391,9 @@
 
         const modValue = mod[key];
         if (Array.isArray(modValue)) {
-          return modValue.some((value) => normalize(value) === normalize(filterValue));
+          return modValue.some(
+            (value) => normalize(value) === normalize(filterValue)
+          );
         }
 
         if (typeof modValue === "string") {
@@ -482,7 +505,9 @@
     }
 
     if (mod.environment) {
-      entries.push(`${t("meta.environment")}: ${environmentLabel(mod.environment)}`);
+      entries.push(
+        `${t("meta.environment")}: ${environmentLabel(mod.environment)}`
+      );
     }
 
     if (mod.minecraftVersion) {
@@ -552,7 +577,6 @@
     return value;
   }
 
-  
   function safeDate(value) {
     if (!value) return new Date(0);
     const date = new Date(value);
@@ -560,7 +584,9 @@
   }
 
   function normalize(value) {
-    return String(value ?? "").trim().toLowerCase();
+    return String(value ?? "")
+      .trim()
+      .toLowerCase();
   }
 
   function slugify(value) {
