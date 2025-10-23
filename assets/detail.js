@@ -13,7 +13,7 @@
   const TEXT = {
   "detail.hero.download": "\u30c0\u30a6\u30f3\u30ed\u30fc\u30c9",
   "detail.hero.downloadUnavailable": "\u30c0\u30a6\u30f3\u30ed\u30fc\u30c9\u4e0d\u53ef",
-  "detail.hero.back": "\u30ab\u30bf\u30ed\u30b0\u306b\u623b\u308b",
+  "detail.hero.back": "Mod\u4e00\u89a7",
   "detail.overview": "\u6982\u8981",
   "detail.latestChanges": "\u6700\u65b0\u306e\u5909\u66f4\u70b9",
   "detail.dependencies": "\u4f9d\u5b58\u95a2\u4fc2",
