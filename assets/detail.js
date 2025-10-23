@@ -11,49 +11,49 @@
   };
 
   const TEXT = {
-  "detail.hero.download": "\u30b5\u30f3\u30d7\u30eb\u3092\u30c0\u30a6\u30f3\u30ed\u30fc\u30c9",
-  "detail.hero.downloadUnavailable": "\u30c0\u30a6\u30f3\u30ed\u30fc\u30c9\u4e0d\u53ef",
-  "detail.hero.back": "Mod\u4e00\u89a7",
-  "detail.overview": "\u6982\u8981",
-  "detail.latestChanges": "\u6700\u65b0\u306e\u5909\u66f4\u70b9",
-  "detail.dependencies": "\u4f9d\u5b58\u95a2\u4fc2",
-  "detail.license": "\u30e9\u30a4\u30bb\u30f3\u30b9",
-  "detail.tags": "\u30bf\u30b0",
-  "detail.downloads": "\u30c0\u30a6\u30f3\u30ed\u30fc\u30c9",
-  "detail.download.previous": "\u904e\u53bb\u30d0\u30fc\u30b8\u30e7\u30f3",
-  "detail.download.title": "\u30c0\u30a6\u30f3\u30ed\u30fc\u30c9\u8a2d\u5b9a",
-  "detail.download.chooseVersion": "\u30b2\u30fc\u30e0\u30d0\u30fc\u30b8\u30e7\u30f3\u3092\u9078\u629e",
-  "detail.download.chooseLoader": "\u30ed\u30fc\u30c0\u30fc\u3092\u9078\u629e",
-  "detail.download.cancel": "\u30ad\u30e3\u30f3\u30bb\u30eb",
-  "detail.notFound.title": "MOD\u304c\u898b\u3064\u304b\u308a\u307e\u305b\u3093",
-  "detail.notFound.summary": "\u8981\u6c42\u3055\u308c\u305f MOD \u304c\u898b\u3064\u304b\u308a\u307e\u305b\u3093\u3067\u3057\u305f\u3002",
-  "detail.notFound.link": "\u30ab\u30bf\u30ed\u30b0\u306b\u623b\u308b",
-  "environment.unknown": "\u672a\u77e5",
-  "meta.environment": "\u74b0\u5883",
-  "meta.minecraft": "\u30de\u30a4\u30f3\u30af\u30e9\u30d5\u30c8\u306e\u30d0\u30fc\u30b8\u30e7\u30f3",
-  "meta.version": "\u30d0\u30fc\u30b8\u30e7\u30f3",
-  "meta.releaseDate": "\u30ea\u30ea\u30fc\u30b9\u65e5",
-  "meta.updatedDate": "\u66f4\u65b0\u65e5",
-  "detail.download.releaseDate": "\u30ea\u30ea\u30fc\u30b9\u65e5",
-  "detail.download.latest": "\u6700\u65b0",
-  "mods.card.untitled": "\u7121\u984c\u306eMOD"
-};
+    "detail.hero.download": "ダウンロード",
+    "detail.hero.downloadUnavailable": "ダウンロード不可",
+    "detail.hero.back": "Mod一覧",
+    "detail.overview": "概要",
+    "detail.latestChanges": "最新の変更点",
+    "detail.dependencies": "依存関係",
+    "detail.license": "ライセンス",
+    "detail.tags": "タグ",
+    "detail.downloads": "ダウンロード",
+    "detail.download.previous": "過去バージョン",
+    "detail.download.title": "ダウンロード設定",
+    "detail.download.chooseVersion": "ゲームバージョンを選択",
+    "detail.download.chooseLoader": "ローダーを選択",
+    "detail.download.cancel": "キャンセル",
+    "detail.notFound.title": "MODが見つかりません",
+    "detail.notFound.summary": "要求された MOD が見つかりませんでした。",
+    "detail.notFound.link": "カタログに戻る",
+    "environment.unknown": "未知",
+    "meta.environment": "環境",
+    "meta.minecraft": "マインクラフトのバージョン",
+    "meta.version": "バージョン",
+    "meta.releaseDate": "リリース日",
+    "meta.updatedDate": "更新日",
+    "detail.download.releaseDate": "リリース日",
+    "detail.download.latest": "最新",
+    "mods.card.untitled": "無題のMOD"
+  };
   const TAG_LABELS = {
-  "survival": "\u30b5\u30d0\u30a4\u30d0\u30eb",
-  "quality_of_life": "\u751f\u6d3b\u306e\u8cea",
-  "gameplay": "\u30b2\u30fc\u30e0\u30d7\u30ec\u30a4",
-  "equipment": "\u88c5\u7f6e",
-  "lightweight": "\u8efd\u91cf",
-  "audio": "\u30aa\u30fc\u30c7\u30a3\u30aa",
-  "atmosphere": "\u96f0\u56f2\u6c17",
-  "building": "\u5efa\u7269",
-  "utility": "\u30e6\u30fc\u30c6\u30a3\u30ea\u30c6\u30a3"
+  "survival": "サバイバル",
+  "quality_of_life": "生活の質",
+  "gameplay": "ゲームプレイ",
+  "equipment": "装備",
+  "lightweight": "軽量",
+  "audio": "オーディオ",
+  "atmosphere": "雰囲気",
+  "building": "建物",
+  "utility": "ユーティリティ"
 };
   const ENVIRONMENT_LABELS = {
-  "client": "\u30af\u30e9\u30a4\u30a2\u30f3\u30c8",
-  "server": "\u30b5\u30fc\u30d0",
-  "client_server": "\u30af\u30e9\u30a4\u30a2\u30f3\u30c8\u3068\u30b5\u30fc\u30d0\u30fc",
-  "unknown": "\u672a\u77e5"
+  "client": "クライアント",
+  "server": "サーバ",
+  "client_server": "クライアントとサーバー",
+  "unknown": "未知"
 };
 
   function t(key) {
@@ -170,7 +170,7 @@
       backButton.textContent = t("detail.hero.back");
     }
 
-    document.title = `${displayName} | My Minecraft Mods`;
+    document.title = `Chihalu Mod - ${displayName}`;
 
   }
 
@@ -197,6 +197,10 @@
     const body = document.createElement("div");
     body.className = "mod-detail__body";
 
+    const mainColumn = document.createElement("div");
+    mainColumn.className = "mod-detail__main";
+    body.appendChild(mainColumn);
+
     const meta = buildMeta(mod);
     if (meta) {
       body.appendChild(meta);
@@ -211,7 +215,7 @@
       section.appendChild(heading);
 
       appendParagraphs(section, mod.description);
-      body.appendChild(section);
+      mainColumn.appendChild(section);
     }
 
     if (mod.changelog) {
@@ -223,7 +227,7 @@
       section.appendChild(heading);
 
       appendParagraphs(section, mod.changelog);
-      body.appendChild(section);
+      mainColumn.appendChild(section);
     }
 
     if (Array.isArray(mod.tags) && mod.tags.length) {
@@ -244,7 +248,7 @@
       });
       section.appendChild(tagsList);
 
-      body.appendChild(section);
+      mainColumn.appendChild(section);
     }
 
     if (Array.isArray(mod.requirements) && mod.requirements.length) {
@@ -274,7 +278,7 @@
       });
 
       section.appendChild(list);
-      body.appendChild(section);
+      mainColumn.appendChild(section);
     }
 
     if (mod.license) {
@@ -295,7 +299,7 @@
       paragraph.appendChild(link);
       section.appendChild(paragraph);
 
-      body.appendChild(section);
+      mainColumn.appendChild(section);
     }
 
     const versions = normalizeVersions(mod);
@@ -334,7 +338,11 @@
         section.appendChild(wrapper);
       }
 
-      body.appendChild(section);
+      mainColumn.appendChild(section);
+    }
+
+    if (!mainColumn.childElementCount) {
+      body.removeChild(mainColumn);
     }
 
     wrapper.appendChild(body);

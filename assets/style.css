@@ -1186,9 +1186,8 @@ a:hover {
 
 .mod-detail__content {
   width: 100%;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 32px;
+  display: flex;
+  flex-direction: column;
   background: var(--surface-strong);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
@@ -1197,7 +1196,7 @@ a:hover {
 }
 
 .mod-detail__media {
-  margin: 0;
+  margin: 0 0 32px;
   border-radius: var(--radius-sm);
   overflow: hidden;
   background: var(--surface-soft);
@@ -1212,39 +1211,48 @@ a:hover {
 }
 
 .mod-detail__body {
-  display: grid;
-  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
-  column-gap: 48px;
-  row-gap: 32px;
-  align-items: start;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px 48px;
+  align-items: flex-start;
+}
+
+.mod-detail__main {
+  flex: 2 1 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
 }
 
 .mod-detail__meta {
-  display: grid;
+  flex: 1 1 280px;
+  display: flex;
+  flex-direction: column;
   gap: 12px;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   padding: 20px;
   border-radius: var(--radius-sm);
   background: var(--surface-soft);
   border: 1px solid var(--border);
-  grid-column: 2;
 }
 
 .mod-detail__section {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  grid-column: 1;
 }
 
 @media (max-width: 960px) {
-  .mod-detail__body {
-    grid-template-columns: 1fr;
+  .mod-detail__media {
+    margin-bottom: 24px;
   }
 
-  .mod-detail__meta,
-  .mod-detail__section {
-    grid-column: 1;
+  .mod-detail__body {
+    flex-direction: column;
+  }
+
+  .mod-detail__main {
+    flex-basis: auto;
+    gap: 24px;
   }
 }
 
@@ -1610,7 +1618,6 @@ body.is-modal-open {
   }
 
   .mod-detail__content {
-    grid-template-columns: 1fr;
     padding: 24px;
   }
 
