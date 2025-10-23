@@ -11,7 +11,7 @@
   };
 
   const TEXT = {
-  "detail.hero.download": "\u30c0\u30a6\u30f3\u30ed\u30fc\u30c9",
+  "detail.hero.download": "\u30b5\u30f3\u30d7\u30eb\u3092\u30c0\u30a6\u30f3\u30ed\u30fc\u30c9",
   "detail.hero.downloadUnavailable": "\u30c0\u30a6\u30f3\u30ed\u30fc\u30c9\u4e0d\u53ef",
   "detail.hero.back": "Mod\u4e00\u89a7",
   "detail.overview": "\u6982\u8981",
@@ -144,16 +144,23 @@
 
     if (downloadEl) {
       const versions = normalizeVersions(mod);
-      const latest = versions[0];
-      if (latest) {
+      const latest = versions.find((entry) => entry.downloadUrl);
+
+      if (latest && latest.downloadUrl) {
         downloadEl.textContent = t("detail.hero.download");
         downloadEl.classList.remove("is-disabled");
-        downloadEl.disabled = false;
-        downloadEl.onclick = () => openDownloadModal(mod, { version: latest.minecraftVersion ?? latest.version, loader: latest.loader });
+        downloadEl.removeAttribute("aria-disabled");
+        downloadEl.href = latest.downloadUrl;
+        downloadEl.setAttribute("download", "");
+        downloadEl.setAttribute("aria-label", `${displayName} ${t("detail.hero.download")}`);
+        downloadEl.onclick = null;
       } else {
         downloadEl.textContent = t("detail.hero.downloadUnavailable");
         downloadEl.classList.add("is-disabled");
-        downloadEl.disabled = true;
+        downloadEl.setAttribute("aria-disabled", "true");
+        downloadEl.removeAttribute("aria-label");
+        downloadEl.removeAttribute("download");
+        downloadEl.removeAttribute("href");
         downloadEl.onclick = null;
       }
     }
@@ -402,7 +409,10 @@
     if (downloadEl) {
       downloadEl.textContent = t("detail.hero.downloadUnavailable");
       downloadEl.classList.add("is-disabled");
-      downloadEl.disabled = true;
+      downloadEl.setAttribute("aria-disabled", "true");
+      downloadEl.removeAttribute("aria-label");
+      downloadEl.removeAttribute("download");
+      downloadEl.removeAttribute("href");
       downloadEl.onclick = null;
     }
 
@@ -747,19 +757,15 @@
     const loaderValue = entry.loader ?? mod.loader ?? "";
 
     if (entry.downloadUrl) {
-      const button = document.createElement("button");
-      button.type = "button";
-      button.className = isLatest ? "button button--primary" : "button button--secondary";
-      button.textContent = t("detail.hero.download");
-      button.dataset.version = entry.minecraftVersion ?? entry.version ?? "";
+      const link = document.createElement("a");
+      link.className = isLatest ? "button button--primary" : "button button--secondary";
+      link.href = entry.downloadUrl;
+      link.setAttribute("download", "");
+      link.textContent = t("detail.hero.download");
       if (entry.version) {
-        button.dataset.modVersion = entry.version;
+        link.setAttribute("aria-label", `${entry.version} ${t("detail.hero.download")}`);
       }
-      button.dataset.loader = loaderValue;
-      button.addEventListener("click", () => {
-        openDownloadModal(mod, { version: entry.minecraftVersion ?? entry.version, loader: loaderValue });
-      });
-      item.appendChild(button);
+      item.appendChild(link);
     } else {
       const unavailable = document.createElement("span");
       unavailable.className = "mod-detail__download-unavailable";
