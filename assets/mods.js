@@ -38,20 +38,13 @@ const modData = [
       "ja": "初回リリース。死亡時のインベントリ保持と経験値復旧オプションを追加。",
       "en": "Initial release with inventory retention and optional XP recovery toggles."
     },
-    "downloadUrl": "assets/downloads/hyperfurnace/hyperfurnace-1.0.1.jar",
+    "downloadUrl": "assets\downloads\hyperfurnace\hyperfurnace-1.0.1.jar",
     "versions": [
       {
         "version": "v1.0.0",
-        "downloadUrl": "assets/downloads/itemnoloss/itemsnoloss-1.0.0.jar",
+        "downloadUrl": "assets\downloads\hyperfurnace\hyperfurnace-1.0.1.jar",
         "releaseDate": "2025-10-20",
         "minecraftVersion": "1.20.4",
-        "loader": "Fabric"
-      },
-      {
-        "version": "v0.9.0-beta",
-        "downloadUrl": "assets/downloads/itemnoloss/itemsnoloss-0.9.0-beta.jar",
-        "releaseDate": "2025-08-15",
-        "minecraftVersion": "1.20.2",
         "loader": "Fabric"
       }
     ],
