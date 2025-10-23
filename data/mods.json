@@ -1,32 +1,32 @@
 [
   {
-    "slug": "item-no-loss",
-    "name": { "ja": "Item No Loss", "en": "Item No Loss" },
+    "slug": "HyperFurnace",
+    "name": { "ja": "HyperFurnace", "en": "HyperFurnace" },
     "summary": {
-      "ja": "死亡してもインベントリを失わないサバイバル支援Mod",
-      "en": "Keep your inventory after death without commands"
+      "ja": "かまどの焼く速度を大幅に向上させるMod",
+      "en": "A mod that significantly speeds up furnace smelting"
     },
     "description": {
       "ja": "難易度の高い探索中でも安心。座標単位で例外ルールを設定でき、マルチプレイではロールごとの権限制御にも対応します。",
       "en": "Stay safe during difficult expeditions. Configure coordinate exceptions and role-based permissions for multiplayer servers."
     },
     "loader": "Fabric",
-    "minecraftVersion": "1.20.4",
-    "version": "v1.0.0",
-    "fileSize": "1.1 MB",
-    "releaseDate": "2025-10-20",
+    "minecraftVersion": "1.21.10",
+    "version": "v1.0.1",
+    "fileSize": "",
+    "releaseDate": "2025-10-23",
     "tags": ["survival", "quality_of_life"],
     "environment": "client_server",
-    "image": "assets/images/item-no-loss.gif",
+    "image": "assets/images/hyperfurnce.gif",
     "requirements": [
       { "name": { "ja": "Fabric API", "en": "Fabric API" }, "url": "https://modrinth.com/mod/fabric-api" }
     ],
-    "updatedDate": "2025-10-28",
+    "updatedDate": "",
     "changelog": {
       "ja": "初回リリース。死亡時のインベントリ保持と経験値復旧オプションを追加。",
       "en": "Initial release with inventory retention and optional XP recovery toggles."
     },
-    "downloadUrl": "assets/Mods/itemnoloss/itemsnoloss-1.0.0.jar",
+    "downloadUrl": "assets/Mods/hyperfurnace/hyperfurnace-1.0.1.jar",
     "versions": [
       {
         "version": "v1.0.0",

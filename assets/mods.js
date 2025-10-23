@@ -6,8 +6,8 @@ const modData = [
       "en": "HyperFurnace"
     },
     "summary": {
-      "ja": "かまどの焼く速度を変更できるMod",
-      "en": "This is a mod that allows you to adjust the smelting speed of the furnace. You can choose the speed from 1x (default), 10x, 20x, 30x, 40x, 50x."
+      "ja": "かまどの焼く速度を大幅に向上させるMod",
+      "en": "A mod that significantly speeds up furnace smelting"
     },
     "description": {
       "ja": "難易度の高い探索中でも安心。座標単位で例外ルールを設定でき、マルチプレイではロールごとの権限制御にも対応します。",
@@ -23,7 +23,7 @@ const modData = [
       "quality_of_life"
     ],
     "environment": "client_server",
-    "image": "assets\images\hyperfurnce.gif",
+    "image": "assets/images/hyperfurnce.gif",
     "requirements": [
       {
         "name": {
@@ -38,8 +38,23 @@ const modData = [
       "ja": "初回リリース。死亡時のインベントリ保持と経験値復旧オプションを追加。",
       "en": "Initial release with inventory retention and optional XP recovery toggles."
     },
-    "downloadUrl": "assets\\Mods\\hyperfurnace\\hyperfurnace-1.0.1.jar",
-    "versions": [],
+    "downloadUrl": "assets/Mods/hyperfurnace/hyperfurnace-1.0.1.jar",
+    "versions": [
+      {
+        "version": "v1.0.0",
+        "downloadUrl": "assets/Mods/itemnoloss/itemsnoloss-1.0.0.jar",
+        "releaseDate": "2025-10-20",
+        "minecraftVersion": "1.20.4",
+        "loader": "Fabric"
+      },
+      {
+        "version": "v0.9.0-beta",
+        "downloadUrl": "assets/Mods/itemnoloss/itemsnoloss-0.9.0-beta.jar",
+        "releaseDate": "2025-08-15",
+        "minecraftVersion": "1.20.2",
+        "loader": "Fabric"
+      }
+    ],
     "license": {
       "ja": "二次配布は禁止。サーバー導入時はクレジット表記をお願いします。",
       "en": "No redistribution. Credit required when installing on servers."
