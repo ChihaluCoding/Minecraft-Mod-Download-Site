@@ -1104,9 +1104,22 @@ a:hover {
 }
 
 .updates--list {
-  display: grid;
+  display: flex;
+  flex-wrap: wrap;
   gap: 24px;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  justify-content: center;
+  align-items: stretch;
+}
+
+.updates--list .update-card {
+  flex: 1 1 320px;
+  max-width: 360px;
+  width: 100%;
+}
+
+.updates--list .updates__empty {
+  flex: 1 1 100%;
+  width: 100%;
 }
 
 .updates__actions,
