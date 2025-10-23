@@ -1,17 +1,15 @@
 <!DOCTYPE html>
 <html lang="ja">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" href="assets/favicon.ico">
-    <meta name="theme-color" content="#0a84ff">
-    <meta property="og:title" content="Chihalu ModsWorks - Mod一覧">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="./mods.html">
-    <meta property="og:image" content="assets/images/placeholder.gif">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="assets/favicon.ico" />
+    <meta name="theme-color" content="#0a84ff" />
+    <meta property="og:title" content="Chihalu ModsWorks - Mod一覧" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="./mods.html" />
+    <meta property="og:image" content="assets/images/placeholder.gif" />
+    <meta name="twitter:card" content="summary_large_image" />
     <title>Chihalu Mods - Mod一覧</title>
     <script>
       (function () {
@@ -20,13 +18,45 @@
           if (savedTheme) {
             document.documentElement.dataset.theme = savedTheme;
           }
-        } catch (error) {
-        }
+        } catch (error) {}
       })();
     </script>
     <link rel="stylesheet" href="assets/style.css" />
   </head>
   <body>
+    <nav class="top-nav" aria-label="主要ナビゲーション">
+      <a class="top-nav__brand" href="index.html">Chihalu Mods</a>
+      <button
+        class="top-nav__toggle"
+        type="button"
+        data-nav-toggle
+        aria-controls="primary-menu"
+        aria-expanded="false"
+        aria-label="メニューを開く"
+      >
+        <span class="top-nav__toggle-bar"></span>
+      </button>
+      <div class="top-nav__menu" id="primary-menu" data-nav-menu>
+        <div class="top-nav__links">
+          <a href="index.html">ホーム</a>
+          <a href="mods.html" aria-current="page">Mod一覧</a>
+          <a href="mod-editor.html">Modエディタ</a>
+        </div>
+        <div class="top-nav__controls">
+          <label class="theme-toggle">
+            <span class="theme-toggle__label">テーマ</span>
+            <span class="theme-toggle__select">
+              <select data-theme-select aria-label="テーマを選択">
+                <option value="light-blue">ライト</option>
+                <option value="light-pink">ライト（ピンク）</option>
+                <option value="dark">ダーク</option>
+              </select>
+            </span>
+          </label>
+        </div>
+      </div>
+    </nav>
+
     <section class="hero hero--mods">
       <div class="hero__video-wrapper" aria-hidden="true">
         <video class="hero__video" autoplay muted loop playsinline>
@@ -34,11 +64,13 @@
         </video>
       </div>
       <div class="hero__content">
-        <p class="hero__subtitle">リリースされたすべての MOD</p>
-        <h1 class="hero__title">MOD一覧</h1>
-        <p class="hero__description">フィルターを使用して、Minecraft のバージョン、ローダー、環境を絞り込めます。</p>
+        <p class="hero__subtitle">リリース済みのすべてのMOD</p>
+        <h1 class="hero__title">Mod一覧</h1>
+        <p class="hero__description">
+          フィルターを活用して、Minecraftのバージョンやローダー、動作環境ごとに探せます。
+        </p>
         <div class="hero__actions">
-          <a class="button hero__cta hero__cta--ghost" href="index.html">ホームへ</a>
+          <a class="button hero__cta hero__cta--ghost" href="index.html">ホームへ戻る</a>
         </div>
       </div>
     </section>
@@ -49,21 +81,21 @@
           <h3 class="mod-filters__title">フィルター</h3>
           <form class="mod-filters__form">
             <label class="mod-filters__field">
-              <span class="mod-filters__label">マインクラフトのバージョン</span>
+              <span class="mod-filters__label">Minecraftバージョン</span>
               <select data-filter="minecraftVersion">
-                <option value="">全て</option>
+                <option value="">すべて</option>
               </select>
             </label>
             <label class="mod-filters__field">
-              <span class="mod-filters__label">ローダ</span>
+              <span class="mod-filters__label">ローダー</span>
               <select data-filter="loader">
-                <option value="">全て</option>
+                <option value="">すべて</option>
               </select>
             </label>
             <label class="mod-filters__field">
-              <span class="mod-filters__label">環境</span>
+              <span class="mod-filters__label">動作環境</span>
               <select data-filter="environment">
-                <option value="">全て</option>
+                <option value="">すべて</option>
               </select>
             </label>
             <button type="button" class="mod-filters__reset" data-filter-clear>リセット</button>
@@ -72,7 +104,7 @@
         <div class="mod-layout">
           <div id="mod-grid" class="mod-grid" aria-live="polite"></div>
         </div>
-        <nav id="mod-pagination" class="mod-pagination" aria-label="MOD一覧ページ切り替え" hidden>
+        <nav id="mod-pagination" class="mod-pagination" aria-label="Mod一覧 ページ切り替え" hidden>
           <button type="button" class="mod-pagination__control" data-page-action="prev" aria-label="前のページ">
             &laquo;
           </button>
@@ -81,7 +113,9 @@
             &raquo;
           </button>
         </nav>
-        <p class="section__note">依存関係、ダウンロード リンクについては、各 MOD ページに記載されています。</p>
+        <p class="section__note">
+          必要な依存関係とダウンロードリンクについては、各Mod詳細ページに記載しています。
+        </p>
       </section>
     </main>
 
@@ -94,4 +128,3 @@
     <script src="assets/main.js"></script>
   </body>
 </html>
-

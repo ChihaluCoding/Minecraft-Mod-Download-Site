@@ -3,28 +3,28 @@
     "slug": "HyperFurnace",
     "name": { "ja": "HyperFurnace", "en": "HyperFurnace" },
     "summary": {
-      "ja": "かまどの焼く速度を大幅に向上させるMod",
-      "en": "A mod that significantly speeds up furnace smelting"
+      "ja": "かまどの精錬速度を劇的に向上させるMod",
+      "en": "Dramatically boosts the smelting speed of furnaces."
     },
     "description": {
-      "ja": "難易度の高い探索中でも安心。座標単位で例外ルールを設定でき、マルチプレイではロールごとの権限制御にも対応します。",
-      "en": "Stay safe during difficult expeditions. Configure coordinate exceptions and role-based permissions for multiplayer servers."
+      "ja": "切り替え可能な加速段階と燃料効率の調整機能を備えた高速精錬Modです。ソロでもマルチでも、冒険で集めた資源を素早く加工できます。",
+      "en": "Add multi-stage speed boosts and optional fuel efficiency tweaks to get your furnace working at hyper speed. Designed for both solo worlds and multiplayer servers."
     },
     "loader": "Fabric",
     "minecraftVersion": "1.21.10",
     "version": "v1.0.1",
-    "fileSize": "",
+    "fileSize": "44 KB",
     "releaseDate": "2025-10-23",
     "tags": ["survival", "quality_of_life"],
     "environment": "client_server",
-    "image": "assets/images/hyperfurnce.gif",
+    "image": "assets/images/hyperfurnace.gif",
     "requirements": [
       { "name": { "ja": "Fabric API", "en": "Fabric API" }, "url": "https://modrinth.com/mod/fabric-api" }
     ],
-    "updatedDate": "",
+    "updatedDate": "2025-10-23",
     "changelog": {
-      "ja": "初回リリース。死亡時のインベントリ保持と経験値復旧オプションを追加。",
-      "en": "Initial release with inventory retention and optional XP recovery toggles."
+      "ja": "初回リリース。燃焼加速機能と速度段階の切り替え、燃料効率の自動調整をサポート。",
+      "en": "Initial release with configurable speed tiers and optional fuel efficiency automation."
     },
     "downloadUrl": "assets/downloads/hyperfurnace/hyperfurnace-1.0.1.jar",
     "sourceUrl": "https://github.com/ChihaluCoding/HyperFurnace",
@@ -38,8 +38,8 @@
       }
     ],
     "license": {
-      "ja": "二次配布は禁止。サーバー導入時はクレジット表記をお願いします。",
-      "en": "No redistribution. Credit required when installing on servers."
+      "ja": "再配布は禁止です。サーバー導入時はクレジット表記をお願いします。",
+      "en": "Redistribution is not permitted. Please provide credit when installing on shared servers."
     }
   }
 ]

@@ -1,17 +1,15 @@
 <!DOCTYPE html>
 <html lang="ja">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" href="assets/favicon.ico">
-    <meta name="theme-color" content="#0a84ff">
-    <meta property="og:title" content="Chihalu ModsWorks - Mod詳細">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="./mod.html">
-    <meta property="og:image" content="assets/images/placeholder.gif">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="assets/favicon.ico" />
+    <meta name="theme-color" content="#0a84ff" />
+    <meta property="og:title" content="Chihalu ModsWorks - Mod詳細" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="./mod.html" />
+    <meta property="og:image" content="assets/images/placeholder.gif" />
+    <meta name="twitter:card" content="summary_large_image" />
     <title>Chihalu Mods - Mod詳細</title>
     <script>
       (function () {
@@ -20,13 +18,45 @@
           if (savedTheme) {
             document.documentElement.dataset.theme = savedTheme;
           }
-        } catch (error) {
-        }
+        } catch (error) {}
       })();
     </script>
     <link rel="stylesheet" href="assets/style.css" />
   </head>
   <body>
+    <nav class="top-nav" aria-label="主要ナビゲーション">
+      <a class="top-nav__brand" href="index.html">Chihalu Mods</a>
+      <button
+        class="top-nav__toggle"
+        type="button"
+        data-nav-toggle
+        aria-controls="primary-menu"
+        aria-expanded="false"
+        aria-label="メニューを開く"
+      >
+        <span class="top-nav__toggle-bar"></span>
+      </button>
+      <div class="top-nav__menu" id="primary-menu" data-nav-menu>
+        <div class="top-nav__links">
+          <a href="index.html">ホーム</a>
+          <a href="mods.html">Mod一覧</a>
+          <a href="mod-editor.html">Modエディタ</a>
+        </div>
+        <div class="top-nav__controls">
+          <label class="theme-toggle">
+            <span class="theme-toggle__label">テーマ</span>
+            <span class="theme-toggle__select">
+              <select data-theme-select aria-label="テーマを選択">
+                <option value="light-blue">ライト</option>
+                <option value="light-pink">ライト（ピンク）</option>
+                <option value="dark">ダーク</option>
+              </select>
+            </span>
+          </label>
+        </div>
+      </div>
+    </nav>
+
     <section class="hero hero--detail">
       <div class="hero__video-wrapper" aria-hidden="true">
         <video class="hero__video" autoplay muted loop playsinline>
@@ -34,11 +64,11 @@
         </video>
       </div>
       <div class="hero__content">
-        <p class="hero__subtitle" id="mod-detail-loader">MODデータをロード中...</p>
-        <h1 class="hero__title" id="mod-detail-title">MODの詳細をロード中です</h1>
+        <p class="hero__subtitle" id="mod-detail-loader">MODデータを読み込み中...</p>
+        <h1 class="hero__title" id="mod-detail-title">MODの詳細を表示しています</h1>
         <p class="hero__description" id="mod-detail-summary">MOD情報を取得するまでお待ちください。</p>
         <div class="hero__actions">
-          <a class="button hero__cta hero__cta--ghost" href="mods.html">Mod一覧</a>
+          <a class="button hero__cta hero__cta--ghost" href="mods.html">Mod一覧へ</a>
         </div>
       </div>
     </section>
@@ -59,4 +89,3 @@
     <script src="assets/main.js"></script>
   </body>
 </html>
-
