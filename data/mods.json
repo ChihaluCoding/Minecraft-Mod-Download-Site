@@ -1,10 +1,7 @@
-const modData = [
+[
   {
     "slug": "item-no-loss",
-    "name": {
-      "ja": "Item No Loss",
-      "en": "Item No Loss"
-    },
+    "name": { "ja": "Item No Loss", "en": "Item No Loss" },
     "summary": {
       "ja": "死亡してもインベントリを失わないサバイバル支援Mod",
       "en": "Keep your inventory after death without commands"
@@ -18,20 +15,11 @@ const modData = [
     "version": "v1.0.0",
     "fileSize": "1.1 MB",
     "releaseDate": "2025-10-20",
-    "tags": [
-      "survival",
-      "quality_of_life"
-    ],
+    "tags": ["survival", "quality_of_life"],
     "environment": "client_server",
     "image": "assets/images/item-no-loss.gif",
     "requirements": [
-      {
-        "name": {
-          "ja": "Fabric API",
-          "en": "Fabric API"
-        },
-        "url": "https://modrinth.com/mod/fabric-api"
-      }
+      { "name": { "ja": "Fabric API", "en": "Fabric API" }, "url": "https://modrinth.com/mod/fabric-api" }
     ],
     "updatedDate": "2025-10-28",
     "changelog": {
@@ -60,6 +48,4 @@ const modData = [
       "en": "No redistribution. Credit required when installing on servers."
     }
   }
-];
-
-window.modData = modData;
+]
