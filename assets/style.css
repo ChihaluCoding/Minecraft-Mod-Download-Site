@@ -1181,7 +1181,7 @@ a:hover {
 }
 
 .hero--detail {
-  padding-bottom: 72px;
+  padding-bottom: 0;
 }
 
 .mod-detail__content {
