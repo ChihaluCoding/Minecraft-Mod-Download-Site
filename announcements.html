@@ -1,26 +1,26 @@
 <!DOCTYPE html>
 <html lang="ja">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Chihalu ModsWorks - お知らせ</title>
-    <link rel="icon" href="assets/favicon.ico" />
-    <meta name="theme-color" content="#0a84ff" />
-    <meta name="description" content="Chihalu ModsWorks の最新アナウンスと開発状況をお届けします。" />
-    <meta property="og:title" content="Chihalu ModsWorks - お知らせ" />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="./announcements.html" />
-    <meta property="og:image" content="assets/images/placeholder.gif" />
-    <meta name="twitter:card" content="summary_large_image" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="assets/favicon.ico">
+    <meta name="theme-color" content="#0a84ff">
+    <meta property="og:title" content="Chihalu ModsWorks - お知らせ">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="./announcements.html">
+    <meta property="og:image" content="assets/images/placeholder.gif">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chihalu Mods - お知らせ</title>
     <script>
       (function () {
         try {
-          var savedTheme = localStorage.getItem("site-theme");
+          var savedTheme = localStorage.getItem('site-theme');
           if (savedTheme) {
             document.documentElement.dataset.theme = savedTheme;
           }
         } catch (error) {
-          /* ignore localStorage access errors */
         }
       })();
     </script>
@@ -42,7 +42,8 @@
           <div class="top-nav__links">
             <a href="index.html">ホーム</a>
             <a href="mods.html">Mod一覧</a>
-            <a href="announcements.html" aria-current="page">お知らせ</a>
+            <a href="announcements.html">お知らせ</a>
+            
           </div>
           <div class="top-nav__controls">
             <div class="theme-toggle">
@@ -59,9 +60,9 @@
         </div>
       </nav>
       <div class="hero__content">
-        <p class="hero__subtitle">リリース予定や重要なお知らせをまとめてお届け</p>
-        <h1 class="hero__title">お知らせセンター</h1>
-        <p class="hero__description">最新情報、開発ロードマップ、イベントスケジュールをこのページでチェックできます。</p>
+        <p class="hero__subtitle">最新のお知らせの概要</p>
+        <h1 class="hero__title">お知らせ</h1>
+        <p class="hero__description">リリース予定や修正内容など、最新トピックをまとめてご案内します。</p>
         <div class="hero__actions">
           <a class="button hero__cta hero__cta--ghost" href="index.html">ホームへ</a>
         </div>
@@ -69,78 +70,88 @@
     </header>
 
     <main>
-      <section class="section section--alt" id="announcements-overview">
+      <section class="section" id="announcements-list-section">
         <div class="section__header">
-          <h2 class="section__title">最新トピックの概要</h2>
-          <p class="section__subtitle">コミュニティに向けて共有している重要な更新内容をハイライトで確認できます。</p>
-        </div>
-        <div class="announcements-highlights">
-          <article class="highlight-card">
-            <h3 class="highlight-card__title">アップデート状況</h3>
-            <p class="highlight-card__body">現在進行中の Mod アップデートや互換性の調整状況をまとめています。</p>
-            <ul class="highlight-card__list">
-              <li>主要 Mod の最新バージョン情報</li>
-              <li>対応予定の Minecraft バージョン</li>
-              <li>開発中の新機能プレビュー</li>
-            </ul>
-          </article>
-          <article class="highlight-card">
-            <h3 class="highlight-card__title">イベント &amp; コミュニティ</h3>
-            <p class="highlight-card__body">配信や公開テストなど、コミュニティ向けの活動もこちらでお知らせします。</p>
-            <ul class="highlight-card__list">
-              <li>公開テストやフィードバック募集</li>
-              <li>最新のイベントスケジュール</li>
-              <li>コミュニティハイライト</li>
-            </ul>
-          </article>
-          <article class="highlight-card">
-            <h3 class="highlight-card__title">サポート情報</h3>
-            <p class="highlight-card__body">お問い合わせや不具合報告手順など、サポート関連の案内をまとめています。</p>
-            <ul class="highlight-card__list">
-              <li>既知の問題と回避策</li>
-              <li>サポート窓口・連絡先</li>
-              <li>よくある質問へのリンク</li>
-            </ul>
-          </article>
-        </div>
-      </section>
-
-      <section class="section" id="announcements-board">
-        <div class="section__header">
-          <h2 class="section__title">お知らせ一覧</h2>
-          <p class="section__subtitle">最新順に並んだお知らせから、詳細ページにアクセスできます。ページ下部のページネーションで過去の更新も参照できます。</p>
-        </div>
-        <div class="announcements-layout">
-          <aside class="announcements-sidebar" aria-labelledby="announcements-sidebar-title">
-            <h3 class="announcements-sidebar__title" id="announcements-sidebar-title">閲覧ガイド</h3>
-            <p class="announcements-sidebar__body">各お知らせの末尾にある「詳細を読む」ボタンからブログや特設ページへ移動できます。重要なお知らせにはラベルが付きます。</p>
-            <div class="announcements-sidebar__block">
-              <h4 class="announcements-sidebar__block-title">おすすめの使い方</h4>
-              <ul class="announcements-sidebar__list">
-                <li>新着情報はトップに表示されます。</li>
-                <li>イベント情報は開催日の少し前に再掲します。</li>
-                <li>不具合修正は更新履歴にまとめています。</li>
-              </ul>
-            </div>
-            <div class="announcements-sidebar__block">
-              <h4 class="announcements-sidebar__block-title">通知を受け取る</h4>
-              <p class="announcements-sidebar__body">GitHub の Star やフォロー、SNS を活用してリアルタイムで通知を受け取りましょう。</p>
-              <a class="button button--secondary announcements-sidebar__cta" href="https://chihalucoding.github.io/" target="_blank" rel="noopener noreferrer">公式サイトを開く</a>
-            </div>
-          </aside>
-          <div class="announcements-content">
-            <div id="announcements-list" class="updates updates--list" aria-live="polite"></div>
-            <nav id="announcements-pagination" class="mod-pagination" aria-label="お知らせページ切り替え" hidden>
-              <button type="button" class="mod-pagination__control" data-announcement-page-action="prev" aria-label="前のお知らせページ">
-                &laquo;
-              </button>
-              <div class="mod-pagination__pages" data-pagination-pages aria-live="polite"></div>
-              <button type="button" class="mod-pagination__control" data-announcement-page-action="next" aria-label="次のお知らせページ">
-                &raquo;
-              </button>
-            </nav>
+            <h2 class="section__title">最新トピックの概要</h2>
+            <p class="section__subtitle">コミュニティに向けて共有している重要な更新内容をハイライトで確認できます。</p>
           </div>
+          <div class="announcements-highlights">
+            <article class="highlight-card">
+              <h3 class="highlight-card__title">アップデート状況</h3>
+              <p class="highlight-card__body">現在進行中の Mod アップデートや互換性の調整状況をまとめています。</p>
+              <ul class="highlight-card__list">
+                <li>主要 Mod の最新バージョン情報</li>
+                <li>対応予定の Minecraft バージョン</li>
+                <li>開発中の新機能プレビュー</li>
+              </ul>
+            </article>
+            <article class="highlight-card">
+              <h3 class="highlight-card__title">イベント &amp; コミュニティ</h3>
+              <p class="highlight-card__body">配信や公開テストなど、コミュニティ向けの活動もこちらでお知らせします。</p>
+              <ul class="highlight-card__list">
+                <li>公開テストやフィードバック募集</li>
+                <li>最新のイベントスケジュール</li>
+                <li>コミュニティハイライト</li>
+              </ul>
+            </article>
+            <article class="highlight-card">
+              <h3 class="highlight-card__title">サポート情報</h3>
+              <p class="highlight-card__body">お問い合わせや不具合報告手順など、サポート関連の案内をまとめています。</p>
+              <ul class="highlight-card__list">
+                <li>既知の問題と回避策</li>
+                <li>サポート窓口・連絡先</li>
+                <li>よくある質問へのリンク</li>
+              </ul>
+            </article>
+          </div>
+        </section>
+
+        <section class="section" id="announcements-board">
+          <div class="section__header">
+            <h2 class="section__title">お知らせ一覧</h2>
+            <p class="section__subtitle">最新順に並んだお知らせから、詳細ページにアクセスできます。ページ下部のページネーションで過去の更新も参照できます。</p>
+          </div>
+          <div class="announcements-layout">
+            <aside class="announcements-sidebar" aria-labelledby="announcements-sidebar-title">
+              <h3 class="announcements-sidebar__title" id="announcements-sidebar-title">閲覧ガイド</h3>
+              <p class="announcements-sidebar__body">各お知らせの末尾にある「詳細を読む」ボタンからブログや特設ページへ移動できます。重要なお知らせにはラベルが付きます。</p>
+              <div class="announcements-sidebar__block">
+                <h4 class="announcements-sidebar__block-title">おすすめの使い方</h4>
+                <ul class="announcements-sidebar__list">
+                  <li>新着情報はトップに表示されます。</li>
+                  <li>イベント情報は開催日の少し前に再掲します。</li>
+                  <li>不具合修正は更新履歴にまとめています。</li>
+                </ul>
+              </div>
+              <div class="announcements-sidebar__block">
+                <h4 class="announcements-sidebar__block-title">通知を受け取る</h4>
+                <p class="announcements-sidebar__body">GitHub の Star やフォロー、SNS を活用してリアルタイムで通知を受け取りましょう。</p>
+                <a class="button button--secondary announcements-sidebar__cta" href="https://chihalucoding.github.io/" target="_blank" rel="noopener noreferrer">公式サイトを開く</a>
+              </div>
+            </aside>
+            <div class="announcements-content">
+              <div id="announcements-list" class="updates updates--list" aria-live="polite"></div>
+              <nav id="announcements-pagination" class="mod-pagination" aria-label="お知らせページ切り替え" hidden>
+                <button type="button" class="mod-pagination__control" data-announcement-page-action="prev" aria-label="前のお知らせページ">
+                  &laquo;
+                </button>
+                <div class="mod-pagination__pages" data-pagination-pages aria-live="polite"></div>
+                <button type="button" class="mod-pagination__control" data-announcement-page-action="next" aria-label="次のお知らせページ">
+                  &raquo;
+                </button>
+              </nav>
+            </div>
         </div>
+        <div id="announcements-list" class="updates updates--list" aria-live="polite"></div>
+        <nav id="announcements-pagination" class="mod-pagination" aria-label="お知らせページ切り替え" hidden>
+          <button type="button" class="mod-pagination__control" data-announcement-page-action="prev" aria-label="前のお知らせページ">
+            &laquo;
+          </button>
+          <div class="mod-pagination__pages" data-pagination-pages aria-live="polite"></div>
+          <button type="button" class="mod-pagination__control" data-announcement-page-action="next" aria-label="次のお知らせページ">
+            &raquo;
+          </button>
+        </nav>
       </section>
     </main>
 
@@ -153,3 +164,4 @@
     <script src="assets/main.js"></script>
   </body>
 </html>
+
