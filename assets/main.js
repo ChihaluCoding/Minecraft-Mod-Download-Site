@@ -6,50 +6,45 @@
     environment: ""
   };
   const MODS_PER_PAGE = 21;
-  const ANNOUNCEMENTS_PER_PAGE = 21;
   let currentModPage = 1;
-  let currentAnnouncementPage = 1;
 
   let allMods = [];
-  let allAnnouncements = [];
 
   const TEXT = {
-  "announcements.empty": "\u307e\u3060\u5229\u7528\u53ef\u80fd\u306a\u304a\u77e5\u3089\u305b\u306f\u3042\u308a\u307e\u305b\u3093\u3002",
-  "announcements.card.link": "\u8a73\u7d30\u3092\u8aad\u3080",
-  "mods.empty": "\u5229\u7528\u53ef\u80fd\u306aMOD\u306f\u3042\u308a\u307e\u305b\u3093\u3002",
-  "mods.emptyFiltered": "\u9078\u629e\u3057\u305f\u30d5\u30a3\u30eb\u30bf\u30fc\u306b\u4e00\u81f4\u3059\u308b MOD \u306f\u3042\u308a\u307e\u305b\u3093\u3002",
-  "mods.card.untitled": "\u7121\u984c\u306eMOD",
-  "mods.card.view": "\u8a73\u7d30\u3092\u898b\u308b",
-  "mods.description.hide": "\u8aac\u660e\u3092\u96a0\u3059",
-  "mods.description.show": "\u8aac\u660e\u3092\u8868\u793a",
-  "meta.version": "\u30d0\u30fc\u30b8\u30e7\u30f3",
-  "meta.environment": "\u74b0\u5883",
-  "meta.minecraft": "\u30de\u30a4\u30f3\u30af\u30e9\u30d5\u30c8\u306e\u30d0\u30fc\u30b8\u30e7\u30f3",
-  "meta.fileSize": "\u30d5\u30a1\u30a4\u30eb\u30b5\u30a4\u30ba",
-  "meta.releaseDate": "\u767a\u58f2\u65e5",
-  "filters.all": "\u5168\u3066",
-  "environment.client": "\u30af\u30e9\u30a4\u30a2\u30f3\u30c8",
-  "environment.server": "\u30b5\u30fc\u30d0",
-  "environment.client_server": "\u30af\u30e9\u30a4\u30a2\u30f3\u30c8\u3068\u30b5\u30fc\u30d0\u30fc",
-  "environment.unknown": "\u672a\u77e5"
-};
+    "mods.empty": "\u5229\u7528\u53ef\u80fd\u306aMOD\u306f\u3042\u308a\u307e\u305b\u3093\u3002",
+    "mods.emptyFiltered": "\u9078\u629e\u3057\u305f\u30d5\u30a3\u30eb\u30bf\u30fc\u306b\u4e00\u81f4\u3059\u308b MOD \u306f\u3042\u308a\u307e\u305b\u3093\u3002",
+    "mods.card.untitled": "\u7121\u984c\u306eMOD",
+    "mods.card.view": "\u8a73\u7d30\u3092\u898b\u308b",
+    "mods.description.hide": "\u8aac\u660e\u3092\u96a0\u3059",
+    "mods.description.show": "\u8aac\u660e\u3092\u8868\u793a",
+    "meta.version": "\u30d0\u30fc\u30b8\u30e7\u30f3",
+    "meta.environment": "\u74b0\u5883",
+    "meta.minecraft": "\u30de\u30a4\u30f3\u30af\u30e9\u30d5\u30c8\u306e\u30d0\u30fc\u30b8\u30e7\u30f3",
+    "meta.fileSize": "\u30d5\u30a1\u30a4\u30eb\u30b5\u30a4\u30ba",
+    "meta.releaseDate": "\u767a\u58f2\u65e5",
+    "filters.all": "\u5168\u3066",
+    "environment.client": "\u30af\u30e9\u30a4\u30a2\u30f3\u30c8",
+    "environment.server": "\u30b5\u30fc\u30d0",
+    "environment.client_server": "\u30af\u30e9\u30a4\u30a2\u30f3\u30c8\u3068\u30b5\u30fc\u30d0\u30fc",
+    "environment.unknown": "\u672a\u77e5"
+  };
   const TAG_LABELS = {
-  "survival": "\u30b5\u30d0\u30a4\u30d0\u30eb",
-  "quality_of_life": "\u751f\u6d3b\u306e\u8cea",
-  "gameplay": "\u30b2\u30fc\u30e0\u30d7\u30ec\u30a4",
-  "equipment": "\u88c5\u7f6e",
-  "lightweight": "\u8efd\u91cf",
-  "audio": "\u30aa\u30fc\u30c7\u30a3\u30aa",
-  "atmosphere": "\u96f0\u56f2\u6c17",
-  "building": "\u5efa\u7269",
-  "utility": "\u30e6\u30fc\u30c6\u30a3\u30ea\u30c6\u30a3"
-};
+    "survival": "\u30b5\u30d0\u30a4\u30d0\u30eb",
+    "quality_of_life": "\u751f\u6d3b\u306e\u8cea",
+    "gameplay": "\u30b2\u30fc\u30e0\u30d7\u30ec\u30a4",
+    "equipment": "\u88c5\u7f6e",
+    "lightweight": "\u8efd\u91cf",
+    "audio": "\u30aa\u30fc\u30c7\u30a3\u30aa",
+    "atmosphere": "\u96f0\u56f2\u6c17",
+    "building": "\u5efa\u7269",
+    "utility": "\u30e6\u30fc\u30c6\u30a3\u30ea\u30c6\u30a3"
+  };
   const ENVIRONMENT_LABELS = {
-  "client": "\u30af\u30e9\u30a4\u30a2\u30f3\u30c8",
-  "server": "\u30b5\u30fc\u30d0",
-  "client_server": "\u30af\u30e9\u30a4\u30a2\u30f3\u30c8\u3068\u30b5\u30fc\u30d0\u30fc",
-  "unknown": "\u672a\u77e5"
-};
+    "client": "\u30af\u30e9\u30a4\u30a2\u30f3\u30c8",
+    "server": "\u30b5\u30fc\u30d0",
+    "client_server": "\u30af\u30e9\u30a4\u30a2\u30f3\u30c8\u3068\u30b5\u30fc\u30d0\u30fc",
+    "unknown": "\u672a\u77e5"
+  };
 
   function t(key) {
     return TEXT[key] ?? key;
@@ -91,7 +86,6 @@
     injectCurrentYear();
     syncThemeSelectors();
     initializeMobileNav();
-    initializeAnnouncements();
     initializeModListing();
 
       });
@@ -161,114 +155,6 @@
         closeMenu();
       }
     });
-  }
-
-  function initializeAnnouncements() {
-    if (!Array.isArray(window.announcementsData)) return;
-    allAnnouncements = [...window.announcementsData].sort((a, b) => safeDate(b.date) - safeDate(a.date));
-    currentAnnouncementPage = 1;
-    setupAnnouncementPaginationControls();
-    renderAnnouncementsPreview();
-    renderAnnouncementsList();
-  }
-
-  function renderAnnouncementsPreview() {
-    const container = document.getElementById("announcements-preview");
-    if (!container) return;
-
-    container.textContent = "";
-    const limit = parseInt(container.dataset.limit ?? "", 10);
-    const announcements = Number.isFinite(limit) && limit > 0 ? allAnnouncements.slice(0, limit) : allAnnouncements;
-
-    if (!announcements.length) {
-      container.appendChild(createAnnouncementEmpty(t("announcements.empty")));
-      return;
-    }
-
-    announcements.forEach((announcement) => {
-      container.appendChild(createAnnouncementCard(announcement, true));
-    });
-  }
-
-  function renderAnnouncementsList() {
-    const container = document.getElementById("announcements-list");
-    const pagination = document.getElementById("announcements-pagination");
-    if (!container) return;
-
-    container.textContent = "";
-    if (pagination) {
-      pagination.hidden = true;
-    }
-
-    if (!allAnnouncements.length) {
-      container.appendChild(createAnnouncementEmpty(t("announcements.empty")));
-      return;
-    }
-
-    const totalPages = Math.max(1, Math.ceil(allAnnouncements.length / ANNOUNCEMENTS_PER_PAGE));
-    if (currentAnnouncementPage > totalPages) {
-      currentAnnouncementPage = totalPages;
-    }
-    if (currentAnnouncementPage < 1) {
-      currentAnnouncementPage = 1;
-    }
-
-    const startIndex = (currentAnnouncementPage - 1) * ANNOUNCEMENTS_PER_PAGE;
-    const endIndex = startIndex + ANNOUNCEMENTS_PER_PAGE;
-    const announcementsToRender = allAnnouncements.slice(startIndex, endIndex);
-
-    announcementsToRender.forEach((announcement) => {
-      container.appendChild(createAnnouncementCard(announcement, false));
-    });
-
-    updatePagination(pagination, totalPages, currentAnnouncementPage);
-  }
-
-  function createAnnouncementCard(announcement, isPreview) {
-    const article = document.createElement("article");
-    article.className = "update-card";
-    if (isPreview) {
-      article.classList.add("update-card--preview");
-    }
-
-    const date = document.createElement("p");
-    date.className = "update-card__date";
-    date.textContent = formatDate(announcement.date);
-    article.appendChild(date);
-
-    const title = document.createElement("h3");
-    title.className = "update-card__title";
-    title.textContent = localizeText(announcement.title);
-    article.appendChild(title);
-
-    if (announcement.body) {
-      const body = document.createElement("p");
-      body.className = "update-card__body";
-      body.textContent = localizeText(announcement.body);
-      article.appendChild(body);
-    }
-
-    if (announcement.link) {
-      const actions = document.createElement("div");
-      actions.className = "update-card__actions";
-
-      const link = document.createElement("a");
-      link.className = "button button--secondary";
-      link.href = announcement.link;
-      link.textContent = t("announcements.card.link");
-      actions.appendChild(link);
-
-      article.appendChild(actions);
-    }
-
-    return article;
-  }
-
-  function createAnnouncementEmpty(message) {
-    const empty = document.createElement("p");
-    empty.className = "updates__empty";
-    empty.textContent = message;
-    return empty;
   }
 
   function initializeModListing() {
@@ -428,37 +314,6 @@
     pagination.dataset.bound = "true";
   }
 
-  function setupAnnouncementPaginationControls() {
-    const pagination = document.getElementById("announcements-pagination");
-    if (!pagination || pagination.dataset.bound === "true") return;
-
-    pagination.addEventListener("click", (event) => {
-      const pageButton = event.target.closest("[data-page-number]");
-      if (pageButton) {
-        const nextPage = parseInt(pageButton.dataset.pageNumber ?? "", 10);
-        if (Number.isFinite(nextPage) && nextPage !== currentAnnouncementPage) {
-          currentAnnouncementPage = nextPage;
-          renderAnnouncementsList();
-        }
-        return;
-      }
-
-      const control = event.target.closest("[data-announcement-page-action]");
-      if (!control) return;
-
-      const action = control.dataset.announcementPageAction;
-      if (action === "prev" && currentAnnouncementPage > 1) {
-        currentAnnouncementPage -= 1;
-        renderAnnouncementsList();
-      } else if (action === "next") {
-        currentAnnouncementPage += 1;
-        renderAnnouncementsList();
-      }
-    });
-
-    pagination.dataset.bound = "true";
-  }
-
   function updatePagination(pagination, totalPages, currentPage) {
     if (!pagination) return;
 
@@ -491,20 +346,11 @@
 
     const prev = pagination.querySelector('[data-page-action="prev"]');
     const next = pagination.querySelector('[data-page-action="next"]');
-    const announcementPrev = pagination.querySelector('[data-announcement-page-action="prev"]');
-    const announcementNext = pagination.querySelector('[data-announcement-page-action="next"]');
-
     if (prev) {
       prev.disabled = currentPage <= 1;
     }
     if (next) {
       next.disabled = currentPage >= totalPages;
-    }
-    if (announcementPrev) {
-      announcementPrev.disabled = currentPage <= 1;
-    }
-    if (announcementNext) {
-      announcementNext.disabled = currentPage >= totalPages;
     }
   }
 
