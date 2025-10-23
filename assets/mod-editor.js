@@ -353,7 +353,7 @@ function renderVersionsSection(container, mod) {
     grid.appendChild(
       createField('ダウンロード URL', ver.downloadUrl || '', (value) => {
         ver.downloadUrl = value;
-      }, { placeholder: 'assets/Mods/.../file.jar' })
+      }, { placeholder: 'assets/downloads/.../file.jar' })
     );
 
     item.appendChild(grid);
@@ -491,7 +491,7 @@ function createModCard(mod, index) {
   fieldGrid.appendChild(
     createField('ダウンロード URL', mod.downloadUrl || '', (value) => {
       mod.downloadUrl = value;
-    }, { placeholder: 'assets/Mods/.../file.jar' })
+    }, { placeholder: 'assets/downloads/.../file.jar' })
   );
 
   card.appendChild(fieldGrid);
