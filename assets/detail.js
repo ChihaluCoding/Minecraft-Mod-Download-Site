@@ -138,7 +138,6 @@
   function renderHero(mod) {
     const titleEl = document.getElementById("mod-detail-title");
     const summaryEl = document.getElementById("mod-detail-summary");
-    const loaderEl = document.getElementById("mod-detail-loader");
     const downloadEl = document.getElementById("mod-detail-download");
 
     const displayName = localizeText(mod.name) || "MOD\u8a73\u7d30";
@@ -149,19 +148,6 @@
 
     if (summaryEl) {
       summaryEl.textContent = localizeText(mod.summary) || localizeText(mod.description) || "";
-    }
-
-    if (loaderEl) {
-      const loader = mod.loader ? String(mod.loader) : "";
-      const environmentText = mod.environment
-        ? environmentLabel(mod.environment)
-        : environmentLabel("unknown");
-      const license = extractLicenseText(mod.license);
-      const parts = [];
-      if (loader) parts.push(loader);
-      if (environmentText) parts.push(environmentText);
-      if (license) parts.push(license);
-      loaderEl.textContent = parts.join(" / ") || environmentText;
     }
 
     if (downloadEl) {
