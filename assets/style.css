@@ -1266,10 +1266,13 @@ a:hover {
   color: var(--text-muted);
   font-weight: 600;
   letter-spacing: 0.02em;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .mod-detail__meta-value {
   color: var(--text);
+  overflow-wrap: anywhere;
 }
 
 
