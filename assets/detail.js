@@ -243,27 +243,6 @@
       mainColumn.appendChild(section);
     }
 
-    if (Array.isArray(mod.tags) && mod.tags.length) {
-      const section = document.createElement("div");
-      section.className = "mod-detail__section";
-
-      const heading = document.createElement("h2");
-      heading.textContent = t("detail.tags");
-      section.appendChild(heading);
-
-      const tagsList = document.createElement("div");
-      tagsList.className = "mod-card__tags";
-      mod.tags.forEach((tag) => {
-        const chip = document.createElement("span");
-        chip.className = "mod-card__tag";
-        chip.textContent = tagLabel(tag);
-        tagsList.appendChild(chip);
-      });
-      section.appendChild(tagsList);
-
-      mainColumn.appendChild(section);
-    }
-
     if (mod.license) {
       const section = document.createElement("div");
       section.className = "mod-detail__section";
