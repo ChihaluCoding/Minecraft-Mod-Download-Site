@@ -119,6 +119,11 @@
     detailContainer = document.getElementById("mod-detail");
     if (!detailContainer) return;
 
+    const loaderPlaceholder = document.getElementById("mod-detail-loader");
+    if (loaderPlaceholder) {
+      loaderPlaceholder.remove();
+    }
+
     const params = new URLSearchParams(window.location.search);
     const slug = params.get("slug");
 
