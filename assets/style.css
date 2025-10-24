@@ -404,22 +404,6 @@ a:hover {
   z-index: 1;
 }
 
-.hero__subtitle {
-  position: relative;
-  z-index: 1;
-  display: inline-block;
-  padding: 6px 16px;
-  margin-bottom: 18px;
-  border-radius: 999px;
-  background: rgba(27, 140, 255, 0.55);
-  color: #ffffff;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  font-size: 0.78rem;
-  box-shadow: 0 10px 28px rgba(4, 20, 45, 0.35);
-}
-
 .hero__title {
   font-size: clamp(2.6rem, 5vw, 3.6rem);
   margin: 0 0 16px;
@@ -1589,10 +1573,6 @@ body.is-modal-open {
 
   .section {
     padding: 72px 20px;
-  }
-
-  .hero__subtitle {
-    letter-spacing: 0.03em;
   }
 
   .mod-layout {
