@@ -16,7 +16,6 @@
     "detail.hero.back": "Mod一覧",
     "detail.overview": "概要",
     "detail.latestChanges": "最新の変更点",
-    "detail.dependencies": "依存関係",
     "detail.license": "ライセンス",
     "detail.tags": "タグ",
     "detail.downloads": "ダウンロード",
@@ -36,7 +35,6 @@
     "meta.version": "バージョン",
     "meta.releaseDate": "リリース日",
     "meta.updatedDate": "更新日",
-    "meta.fileSize": "ファイルサイズ",
     "detail.download.releaseDate": "リリース日",
     "detail.download.latest": "最新",
     "mods.card.untitled": "無題のMOD"
@@ -275,36 +273,6 @@
       mainColumn.appendChild(section);
     }
 
-    if (Array.isArray(mod.requirements) && mod.requirements.length) {
-      const section = document.createElement("div");
-      section.className = "mod-detail__section";
-
-      const heading = document.createElement("h2");
-      heading.textContent = t("detail.dependencies");
-      section.appendChild(heading);
-
-      const list = document.createElement("ul");
-      list.className = "mod-detail__list";
-
-      mod.requirements.forEach((entry) => {
-        const item = document.createElement("li");
-        if (entry?.url) {
-          const link = document.createElement("a");
-          link.href = entry.url;
-          link.target = "_blank";
-          link.rel = "noopener";
-          link.textContent = localizeText(entry.name);
-          item.appendChild(link);
-        } else if (entry?.name) {
-          item.textContent = localizeText(entry.name);
-        }
-        list.appendChild(item);
-      });
-
-      section.appendChild(list);
-      mainColumn.appendChild(section);
-    }
-
     if (mod.license) {
       const section = document.createElement("div");
       section.className = "mod-detail__section";
@@ -396,7 +364,6 @@
       mod.updatedDate
         ? { label: "meta.updatedDate", value: formatDate(mod.updatedDate) }
         : null,
-      mod.fileSize ? { label: "meta.fileSize", value: mod.fileSize } : null,
       mod.sourceUrl
         ? { label: "detail.source", value: mod.sourceUrl, type: "link" }
         : null
@@ -809,7 +776,6 @@
     item.appendChild(info);
 
     const loaderValue = entry.loader ?? mod.loader ?? "";
-    const fileSize = entry.fileSize ?? mod.fileSize ?? "";
 
     const metaParts = [];
     if (entry.releaseDate) {
@@ -820,9 +786,6 @@
     }
     if (loaderValue) {
       metaParts.push(`${t("meta.loader")}: ${loaderValue}`);
-    }
-    if (fileSize) {
-      metaParts.push(`${t("meta.fileSize")}: ${fileSize}`);
     }
 
     if (metaParts.length) {
@@ -860,8 +823,7 @@
           releaseDate: entry.releaseDate ?? mod.releaseDate,
           downloadUrl: entry.downloadUrl ?? mod.downloadUrl,
           minecraftVersion: entry.minecraftVersion ?? mod.minecraftVersion,
-          loader: entry.loader ?? mod.loader,
-          fileSize: entry.fileSize ?? mod.fileSize
+          loader: entry.loader ?? mod.loader
         }))
         .sort((a, b) => safeDate(b.releaseDate) - safeDate(a.releaseDate));
     }
@@ -873,8 +835,7 @@
           releaseDate: mod.releaseDate,
           downloadUrl: mod.downloadUrl,
           minecraftVersion: mod.minecraftVersion,
-          loader: mod.loader,
-          fileSize: mod.fileSize
+          loader: mod.loader
         }
       ];
     }
