@@ -35,7 +35,7 @@ const modData = [
     ],
     "updatedDate": "2025-10-23",
     "changelog": {
-      "ja": "初回リリース。燃焼加速機能と速度段階の切り替え、燃料効率の自動調整をサポート。",
+      "ja": "初回リリース。",
       "en": "Initial release with configurable speed tiers and optional fuel efficiency automation."
     },
     "downloadUrl": "assets/downloads/hyperfurnace/hyperfurnace-1.0.1.jar",
